@@ -2,1065 +2,745 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SkinMatch Beauty — Skincare feito para a sua pele</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#232A2E">
+<title>Shinmatch beaty — Análise de Pele</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
 :root{
-  --pink:#cc007e;
-  --pink-rgb:204,0,126;
-  --pink-light:#ffc2e8;
-  --orange:#ffa51f;
-  --yellow:#ffeb99;
-  --green:#4f9d2e;
-  --green-soft:#99e17a;
-  --green-light:#d9f4cd;
-  --blue:#37b6ff;
-  --blue-light:#c2f6ff;
-  --ink:#2a1f28;
-  --muted:#7c7078;
-  --bg:#fdf7f3;
-  --surface:#ffffff;
-  --border:#f0e2e8;
-  --radius-lg:24px;
-  --radius-md:16px;
-  --radius-sm:10px;
-  --shadow:0 10px 30px -14px rgba(42,31,40,.22);
-  --scan-progress:0;
+  --bg: #FAF6F3;
+  --panel: #FFFFFF;
+  --ink: #232A2E;
+  --ink-soft: #5B6469;
+  --line: #E7DFD9;
+  --rose: #E0836F;
+  --rose-soft: #F4DCD4;
+  --sage: #8CA084;
+  --sage-soft: #E4EAE0;
+  --gold: #C9A24B;
+  --gold-soft: #F2E7CD;
+  --navy: #2B3A4A;
+  --navy-soft: #DDE3E8;
+  --radius: 18px;
+  --shadow: 0 8px 30px rgba(35,42,46,0.08);
 }
-
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{font-size:100%;scroll-behavior:smooth;}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;}
 body{
-  font-family:'Poppins',sans-serif;
+  font-family:'Work Sans', sans-serif;
   background:var(--bg);
   color:var(--ink);
-  line-height:1.5;
-  -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
-img,svg{display:block;max-width:100%;}
-a{color:inherit;text-decoration:none;}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:1rem;}
-ul{list-style:none;}
-input{font-family:inherit;}
-h1,h2,h3,h4{font-weight:600;letter-spacing:-0.01em;}
-.icon{width:20px;height:20px;flex-shrink:0;}
-:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px;}
-
-/* ===== Reduce motion / contrast modes ===== */
-body.reduce-motion *{animation:none!important;transition:none!important;}
-body.contrast{--bg:#ffffff;--ink:#000000;--muted:#262626;--border:#000000;--surface:#ffffff;}
-body.contrast .btn-primary{background:#000;color:#fff;}
-body.contrast .btn-outline{border-color:#000;color:#000;}
-body.contrast .card,body.contrast .widget,body.contrast .phone-screen{border:1.5px solid #000;}
-
-/* ===== Layout helpers ===== */
-.wrap{max-width:1280px;margin:0 auto;padding:0 32px;}
-.section{padding:64px 0;}
-.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--pink);}
-.btn-primary{
-  background:var(--pink);color:#fff;padding:14px 28px;border-radius:999px;
-  font-weight:600;font-size:.85rem;letter-spacing:.03em;text-transform:uppercase;
-  display:inline-flex;align-items:center;gap:8px;transition:transform .15s ease, box-shadow .15s ease;
-  box-shadow:0 8px 20px -8px rgba(var(--pink-rgb),.6);
+#app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;background:var(--bg);padding-bottom:86px;}
+h1,h2,h3{font-family:'Fraunces', serif; margin:0; letter-spacing:-0.01em;}
+.mono{font-family:'IBM Plex Mono', monospace;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-soft);}
+.screen{padding:28px 22px 20px;}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  border:none;border-radius:100px;padding:16px 22px;font-family:'Work Sans';font-weight:600;font-size:15px;
+  cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;width:100%;
 }
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(var(--pink-rgb),.7);}
-.btn-outline{
-  border:1.5px solid var(--pink);color:var(--pink);padding:13px 26px;border-radius:999px;
-  font-weight:600;font-size:.85rem;letter-spacing:.03em;text-transform:uppercase;
-  display:inline-flex;align-items:center;gap:8px;transition:background .15s ease;
-}
-.btn-outline:hover{background:var(--pink-light);}
-.btn-block{width:100%;justify-content:center;}
-
-/* ===== Top announcement bar ===== */
-.topbar{
-  background:var(--pink);color:#fff;text-align:center;font-size:.8rem;font-weight:500;
-  padding:9px 16px;letter-spacing:.03em;display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.topbar .icon{width:16px;height:16px;}
-
-/* ===== Header ===== */
-.site-header{
-  display:flex;align-items:center;gap:28px;padding:18px 32px;background:var(--surface);
-  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40;flex-wrap:nowrap;
-}
-.logo{display:flex;flex-direction:column;line-height:1;flex-shrink:0;cursor:pointer;}
-.logo .word{font-size:1.35rem;font-weight:700;letter-spacing:-.01em;}
-.logo .word span{color:var(--pink);}
-.logo .tag{font-size:.55rem;letter-spacing:.35em;color:var(--muted);margin-top:3px;font-weight:600;}
-.search-box{
-  flex:1;max-width:440px;display:flex;align-items:center;gap:10px;background:var(--bg);
-  border:1px solid var(--border);border-radius:999px;padding:10px 18px;color:var(--muted);
-}
-.search-box input{background:none;border:none;flex:1;font-size:.9rem;color:var(--ink);}
-.search-box input::placeholder{color:var(--muted);}
-.search-box button{display:flex;color:var(--muted);}
-.main-nav{display:flex;gap:22px;flex-shrink:0;}
-.main-nav a{font-size:.82rem;font-weight:500;color:var(--ink);letter-spacing:.02em;white-space:nowrap;transition:color .15s;}
-.main-nav a:hover{color:var(--pink);}
-.main-nav a.nav-highlight{color:var(--pink);font-weight:600;}
-.header-icons{display:flex;align-items:center;gap:16px;flex-shrink:0;}
-.header-icons button{position:relative;display:flex;color:var(--ink);transition:color .15s;}
-.header-icons button:hover{color:var(--pink);}
-.cart-badge{
-  position:absolute;top:-7px;right:-8px;background:var(--pink);color:#fff;font-size:.62rem;
-  font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-}
-.nav-toggle{display:none;color:var(--ink);}
-
-/* ===== Page layout: main + sidebar ===== */
-.page-layout{
-  max-width:1280px;margin:0 auto;padding:40px 32px 0;
-  display:grid;grid-template-columns:1fr 340px;gap:36px;align-items:start;
-}
-.main-col{min-width:0;}
-.sidebar{position:sticky;top:96px;display:flex;flex-direction:column;gap:20px;}
-
-/* ===== Hero ===== */
-.hero{
-  background:linear-gradient(135deg, var(--pink-light) 0%, #fff 55%);
-  border-radius:var(--radius-lg);padding:56px 48px;display:grid;grid-template-columns:1.1fr .9fr;
-  gap:32px;align-items:center;overflow:hidden;position:relative;
-}
-.hero h1{font-size:2.4rem;line-height:1.12;margin-bottom:16px;}
-.hero h1 .accent{color:var(--pink);display:block;}
-.hero p{color:var(--muted);font-size:1rem;max-width:420px;margin-bottom:26px;}
-.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
-.hero-art{position:relative;height:280px;}
-.blob{position:absolute;border-radius:50%;filter:blur(.5px);}
-.avatar{
-  position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 14px 30px -12px rgba(42,31,40,.35);border:4px solid #fff;
-  animation:float 6s ease-in-out infinite;
-}
-@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
-.face-glyph{width:46%;height:46%;color:rgba(255,255,255,.92);}
-.hero-chip{
-  position:absolute;background:#fff;border-radius:999px;padding:9px 16px;box-shadow:var(--shadow);
-  display:flex;align-items:center;gap:8px;font-size:.75rem;font-weight:600;color:var(--ink);
-  animation:float 5s ease-in-out infinite;animation-delay:.4s;
-}
-
-/* ===== About ===== */
-.about-section p{color:var(--muted);font-size:.92rem;line-height:1.65;max-width:480px;}
-.about-badge{
-  display:inline-flex;align-items:center;gap:8px;background:var(--pink-light);color:var(--pink);
-  padding:10px 18px;border-radius:999px;font-size:.78rem;font-weight:600;margin-top:20px;
-}
-.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:start;}
-.concern-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.concern-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:14px;display:flex;align-items:center;gap:12px;transition:transform .15s ease, box-shadow .15s ease;
-}
-.concern-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
-.concern-card .step-icon{width:38px;height:38px;margin:0;flex-shrink:0;}
-.concern-card span{font-size:.84rem;font-weight:600;}
-.about-access-note{
-  display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);font-weight:500;
-  margin-top:16px;
-}
-
-/* ===== How it works ===== */
-.how-title{font-size:1.6rem;margin-bottom:32px;text-align:center;}
-.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;position:relative;}
-.step{text-align:center;position:relative;padding:0 6px;}
-.step-icon{
-  width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  margin:0 auto 14px;transition:transform .2s ease;
-}
-.step:hover .step-icon{transform:scale(1.06);}
-.step-num{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:6px;}
-.step h4{font-size:.92rem;margin-bottom:6px;}
-.step p{font-size:.78rem;color:var(--muted);line-height:1.4;}
-.tint-pink{background:var(--pink-light);color:var(--pink);}
-.tint-yellow{background:var(--yellow);color:var(--orange);}
-.tint-green{background:var(--green-light);color:var(--green);}
-.tint-blue{background:var(--blue-light);color:var(--blue);}
-
-/* ===== Products ===== */
-.products-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;}
-.products-head h2{font-size:1.6rem;}
-.products-head a{font-size:.82rem;font-weight:600;color:var(--pink);}
-.cat-pills{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:24px;}
-.cat-pill{
-  padding:9px 17px;border-radius:999px;border:1.5px solid var(--border);font-size:.76rem;
-  font-weight:600;color:var(--muted);transition:all .15s ease;background:var(--surface);
-}
-.cat-pill:hover{border-color:var(--pink);color:var(--pink);}
-.cat-pill.active{background:var(--pink);border-color:var(--pink);color:#fff;}
-.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-.product-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:20px;text-align:center;transition:box-shadow .18s ease, transform .18s ease;
-  display:flex;flex-direction:column;align-items:center;
-}
-.product-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
-.product-icon-wrap{
-  height:88px;width:100%;display:flex;align-items:center;justify-content:center;margin-bottom:12px;
-}
-.product-tag{
-  font-size:.6rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
-  padding:3px 10px;border-radius:999px;margin-bottom:9px;
-}
-.product-card h4{font-size:.9rem;margin-bottom:5px;}
-.product-card .desc{font-size:.72rem;color:var(--muted);line-height:1.4;margin-bottom:10px;min-height:34px;}
-.product-card .see-more{font-size:.72rem;font-weight:600;color:var(--pink);letter-spacing:.03em;margin-top:auto;}
-
-/* ===== Trust badges ===== */
-.trust-row{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:20px;
-  padding-top:36px;border-top:1px solid var(--border);
-}
-.trust-item{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;}
-.trust-item .step-icon{width:46px;height:46px;margin:0;}
-.trust-item p{font-size:.76rem;color:var(--muted);line-height:1.35;}
-
-/* ===== Sidebar widgets ===== */
-.widget{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:22px;transition:outline .3s ease;
-}
-.widget.highlight{outline:3px solid var(--pink);outline-offset:2px;}
-.widget-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;}
-.widget-head h3{font-size:1.02rem;}
-.widget-head a{font-size:.7rem;font-weight:600;color:var(--pink);}
-.routine-block+.routine-block{margin-top:18px;padding-top:18px;border-top:1px dashed var(--border);}
-.routine-block h5{font-size:.8rem;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
-.routine-items{display:flex;gap:12px;}
-.routine-item{flex:1;text-align:center;}
-.routine-icon{
-  width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  margin:0 auto 6px;
-}
-.routine-item span{font-size:.66rem;color:var(--muted);display:block;line-height:1.2;}
-
-.refill-widget{background:linear-gradient(150deg,var(--green-light),#fff);}
-.refill-widget h3{display:flex;align-items:center;gap:8px;}
-.refill-widget p{font-size:.82rem;color:var(--muted);margin:10px 0 16px;line-height:1.5;}
-.refill-widget .btn-primary{background:var(--green);box-shadow:none;font-size:.72rem;padding:11px 20px;}
-
-.a11y-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;font-size:.85rem;}
-.a11y-row+.a11y-row{border-top:1px solid var(--border);}
-.text-size-btns{display:flex;gap:6px;}
-.text-size-btns button{
-  width:30px;height:30px;border-radius:8px;border:1px solid var(--border);display:flex;
-  align-items:center;justify-content:center;font-weight:700;font-size:.7rem;transition:background .15s;
-}
-.text-size-btns button:hover{background:var(--bg);}
-.switch{width:40px;height:22px;border-radius:999px;background:var(--border);position:relative;transition:background .18s;flex-shrink:0;}
-.switch::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .18s;}
-.switch.on{background:var(--pink);}
-.switch.on::after{transform:translateX(18px);}
-.a11y-link{display:flex;align-items:center;gap:4px;color:var(--muted);}
-
-.help-widget .a11y-row{cursor:pointer;}
-.help-widget .a11y-row:hover{color:var(--pink);}
-.help-avatar{
-  width:38px;height:38px;border-radius:50%;background:var(--blue-light);color:var(--blue);
-  display:flex;align-items:center;justify-content:center;margin-left:auto;
-}
-
-/* ===== Footer ===== */
-.site-footer{margin-top:64px;padding:36px 32px;border-top:1px solid var(--border);text-align:center;}
-.site-footer .logo{margin:0 auto 10px;align-items:center;}
-.site-footer p{font-size:.78rem;color:var(--muted);}
-
-/* ===== Toast ===== */
-#toast{
-  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-size:.82rem;font-weight:500;
-  opacity:0;pointer-events:none;transition:opacity .25s ease, transform .25s ease;z-index:200;box-shadow:var(--shadow);
-}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-/* ===== Skin Scan Modal / Phone ===== */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(30,15,24,.6);backdrop-filter:blur(3px);
-  display:none;align-items:center;justify-content:center;z-index:100;padding:20px;
-}
-.modal-overlay.open{display:flex;}
-.modal-close{
-  position:absolute;top:24px;right:calc(50% - 195px);background:rgba(255,255,255,.15);color:#fff;
-  width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  transition:background .15s;
-}
-.modal-close:hover{background:rgba(255,255,255,.3);}
-.phone-frame{
-  width:360px;max-width:92vw;height:730px;max-height:92vh;background:#141014;border-radius:46px;
-  padding:12px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);position:relative;
-}
-.phone-notch{
-  position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:24px;
-  background:#141014;border-radius:0 0 16px 16px;z-index:5;
-}
-.phone-screen{
-  width:100%;height:100%;background:var(--bg);border-radius:36px;overflow:hidden;position:relative;
-  display:flex;flex-direction:column;
-}
-.status-row{
-  display:flex;align-items:center;justify-content:space-between;padding:16px 24px 6px;font-size:.72rem;font-weight:600;flex-shrink:0;
-}
-.status-row .bars{display:flex;align-items:center;gap:4px;}
-.status-row .bars .bar{width:3px;background:var(--ink);border-radius:1px;}
-.status-row .bars .bar:nth-child(1){height:5px;}
-.status-row .bars .bar:nth-child(2){height:7px;}
-.status-row .bars .bar:nth-child(3){height:9px;}
-.status-row .bars .bar:nth-child(4){height:11px;}
-.status-row .battery{width:20px;height:10px;border:1.4px solid var(--ink);border-radius:2px;position:relative;margin-left:4px;}
-.status-row .battery::after{content:'';position:absolute;right:-3px;top:2.5px;width:2px;height:5px;background:var(--ink);border-radius:1px;}
-.status-row .battery-fill{position:absolute;inset:1.5px;left:1.5px;width:70%;background:var(--ink);border-radius:1px;}
-
-.app-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 22px 16px;flex-shrink:0;}
-.app-topbar .icon-btn{color:var(--ink);}
-.app-topbar .logo{font-size:1.02rem;}
-.app-topbar .logo .tag{font-size:.42rem;letter-spacing:.28em;}
-
-.phone-body{flex:1;overflow-y:auto;padding:0 24px 24px;}
-.phone-body::-webkit-scrollbar{display:none;}
-
-.screen{animation:screenIn .3s ease;}
-@keyframes screenIn{from{opacity:0;transform:translateX(14px);}to{opacity:1;transform:translateX(0);}}
-
-.step-dots{display:flex;gap:6px;margin:4px 0 22px;}
-.step-dots span{width:22px;height:4px;border-radius:2px;background:var(--border);}
-.step-dots span.active{background:var(--pink);}
-
-.back-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
-.back-btn{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ink);}
-
-.screen h2{font-size:1.35rem;margin-bottom:8px;line-height:1.2;}
-.screen .sub{font-size:.85rem;color:var(--muted);margin-bottom:22px;line-height:1.45;}
-
-/* intro screen */
-.intro-art{position:relative;height:210px;margin:8px 0 30px;}
-
-/* quiz screen */
-.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px;}
-.option-card{
-  border:1.5px solid var(--border);border-radius:var(--radius-md);padding:16px 14px;
-  display:flex;flex-direction:column;gap:10px;text-align:left;transition:border-color .15s, background .15s;
-  background:var(--surface);
-}
-.option-card .opt-icon{
-  width:34px;height:34px;border-radius:10px;background:var(--pink-light);color:var(--pink);
-  display:flex;align-items:center;justify-content:center;
-}
-.option-card span{font-size:.82rem;font-weight:500;}
-.option-card.selected{border-color:var(--pink);background:var(--pink-light);}
-.option-card.selected .opt-icon{background:var(--pink);color:#fff;}
-
-/* face scan screen */
-.face-frame-wrap{display:flex;justify-content:center;margin:6px 0 28px;}
-.face-frame{
-  width:210px;height:250px;border-radius:50%;border:3px dashed var(--pink);
-  display:flex;align-items:center;justify-content:center;position:relative;background:var(--pink-light);
-}
-.face-glyph-lg{width:52%;height:52%;color:var(--pink);}
-.tips-row{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;}
-.tip{flex:1;text-align:center;}
-.tip .step-icon{width:42px;height:42px;margin:0 auto 8px;}
-.tip p{font-size:.66rem;color:var(--muted);line-height:1.3;}
-
-/* analyzing screen */
-.progress-wrap{display:flex;flex-direction:column;align-items:center;margin:10px 0 26px;}
-.progress-ring{
-  width:150px;height:150px;border-radius:50%;position:relative;
-  background:conic-gradient(var(--pink) 0deg, var(--border) 0deg);
-}
-.progress-inner{
-  position:absolute;inset:9px;background:var(--surface);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:700;color:var(--ink);
-}
-.analyze-list{margin-top:6px;}
-.analyze-list li{
-  display:flex;align-items:center;gap:10px;padding:9px 0;font-size:.85rem;color:var(--muted);
-  border-bottom:1px solid var(--border);
-}
-.analyze-list li:last-child{border-bottom:none;}
-.analyze-list li .dot{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;}
-.analyze-list li.checked{color:var(--ink);font-weight:500;}
-.analyze-list li.checked .check-icn{color:#fff;background:var(--green);border-radius:50%;width:16px;height:16px;padding:2px;flex-shrink:0;}
-
-/* results screen */
-.result-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:18px;margin-bottom:16px;
-}
-.result-card h5{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;}
-.result-card p{font-size:.87rem;line-height:1.5;}
-.need-row{display:flex;align-items:center;gap:12px;padding:10px 0;}
-.need-row+.need-row{border-top:1px solid var(--border);}
-.need-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.need-text strong{font-size:.85rem;display:block;}
-.need-text span{font-size:.72rem;color:var(--muted);}
-
-/* bottom nav */
-.phone-nav{
-  display:flex;align-items:center;justify-content:space-around;padding:12px 10px 16px;
-  border-top:1px solid var(--border);flex-shrink:0;position:relative;background:var(--surface);
-}
-.phone-nav .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:.6rem;}
-.phone-nav .nav-item.active{color:var(--pink);}
-.phone-nav .fab{
-  position:absolute;left:50%;top:-24px;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;
-  background:var(--pink);color:#fff;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 10px 20px -8px rgba(var(--pink-rgb),.7);border:5px solid var(--bg);
-}
-
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
-
-/* ===== Responsive ===== */
-@media (max-width:980px){
-  .page-layout{grid-template-columns:1fr;}
-  .sidebar{position:static;grid-template-columns:1fr 1fr;display:grid;}
-  .hero{grid-template-columns:1fr;}
-  .hero-art{height:200px;}
-  .about-grid{grid-template-columns:1fr;}
-  .steps{grid-template-columns:repeat(3,1fr);row-gap:26px;}
-  .trust-row{grid-template-columns:repeat(3,1fr);row-gap:20px;}
-  .product-grid{grid-template-columns:repeat(2,1fr);}
-}
-@media (max-width:720px){
-  .main-nav,.search-box{display:none;}
-  .nav-toggle{display:flex;}
-  .site-header{padding:14px 18px;}
-  .wrap,.page-layout{padding-left:18px;padding-right:18px;}
-  .hero{padding:34px 24px;}
-  .hero h1{font-size:1.8rem;}
-  .steps{grid-template-columns:repeat(2,1fr);}
-  .trust-row,.sidebar{grid-template-columns:1fr;}
-  .product-grid{grid-template-columns:1fr 1fr;}
-}
+.btn:active{transform:scale(0.97);}
+.btn-primary{background:var(--ink); color:var(--bg);}
+.btn-rose{background:var(--rose); color:#fff;}
+.btn-outline{background:transparent;border:1.5px solid var(--line); color:var(--ink);}
+.btn-ghost{background:transparent;color:var(--ink-soft);font-weight:500;}
+.card{background:var(--panel); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px;}
+.field{width:100%;padding:15px 16px;border-radius:12px;border:1.5px solid var(--line);font-family:'Work Sans';font-size:15px;background:#fff;margin-top:8px;}
+.field:focus{outline:none;border-color:var(--rose);}
+.stack{display:flex;flex-direction:column;gap:14px;}
+.row{display:flex;align-items:center;gap:12px;}
+.spacer{flex:1;}
+.pill{font-family:'IBM Plex Mono';font-size:11px;padding:5px 10px;border-radius:100px;background:var(--sage-soft);color:#4B5A44;font-weight:500;}
+.pill-alert{background:var(--gold-soft);color:#7A6120;}
+.pill-rose{background:var(--rose-soft); color:#93412E;}
+.divider{height:1px;background:var(--line);margin:18px 0;}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(250,246,243,0.9);backdrop-filter:blur(8px);padding:18px 22px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);}
+.bottomnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--line);display:flex;padding:10px 10px calc(10px + env(safe-area-inset-bottom));z-index:30;}
+.navbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:var(--ink-soft);font-family:'IBM Plex Mono';font-size:10px;padding:6px 0;cursor:pointer;}
+.navbtn.active{color:var(--rose);}
+.navbtn svg{width:20px;height:20px;}
+.progress-ring{position:relative;width:220px;height:220px;margin:0 auto;}
+.fade-in{animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.scanwrap{position:relative;width:220px;height:220px;margin:24px auto;border-radius:50%;overflow:hidden;background:var(--navy);}
+.scanwrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.scan-ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(224,131,111,0.6);animation:pulse 1.8s ease-out infinite;}
+.scan-ring.d2{animation-delay:.6s;}
+.scan-ring.d3{animation-delay:1.2s;}
+@keyframes pulse{0%{transform:scale(0.7);opacity:1;}100%{transform:scale(1.25);opacity:0;}}
+.sweep{position:absolute;inset:0;background:conic-gradient(from 0deg, transparent 0deg, rgba(224,131,111,0.35) 40deg, transparent 90deg);animation:spin 1.6s linear infinite;border-radius:50%;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.metric-bar{height:8px;border-radius:100px;background:var(--line);overflow:hidden;margin-top:8px;}
+.metric-fill{height:100%;border-radius:100px;transition:width .8s ease;}
+.upload-zone{border:1.5px dashed var(--line);border-radius:var(--radius);padding:40px 20px;text-align:center;background:#fff;}
+input[type=file]{display:none;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;font-family:'IBM Plex Mono';font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;padding:8px 6px;border-bottom:1px solid var(--line);}
+td{padding:10px 6px;border-bottom:1px solid var(--line);}
+.disclaimer{background:var(--gold-soft);border-radius:14px;padding:14px 16px;font-size:12.5px;color:#5B4A1C;line-height:1.5;}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--rose-soft);color:#93412E;display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-weight:600;font-size:15px;}
+.empty{text-align:center;padding:50px 20px;color:var(--ink-soft);}
+.link{color:var(--rose);text-decoration:none;font-weight:600;font-size:13px;}
+::selection{background:var(--rose-soft);}
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="13" height="10" rx="1"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="16.5" cy="18.5" r="1.5"/></svg>
-  Frete grátis para compras acima de R$199
-</div>
-
-<header class="site-header">
-  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <span class="word">SKIN<span>MATCH</span></span>
-    <span class="tag">BEAUTY</span>
-  </div>
-  <div class="search-box">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input id="searchInput" type="text" placeholder="O que você está procurando?" aria-label="Buscar produtos">
-    <button aria-label="Buscar" onclick="doSearch()">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-    </button>
-  </div>
-  <nav class="main-nav" aria-label="Navegação principal">
-    <a href="#top">INÍCIO</a>
-    <a href="#about">SOBRE NÓS</a>
-    <a href="#products">PRODUTOS</a>
-    <a href="#" class="nav-highlight" onclick="openScan();return false;">SKIN SCAN</a>
-    <a href="#routineWidget">ROTINAS</a>
-    <a href="#" onclick="toast('Blog em breve');return false;">BLOG</a>
-    <a href="#" onclick="toast('Página em breve');return false;">SUSTENTABILIDADE</a>
-    <a href="#a11yWidget">ACESSIBILIDADE</a>
-  </nav>
-  <div class="header-icons">
-    <button aria-label="Minha conta" onclick="toast('Login em breve')">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
-    </button>
-    <button aria-label="Favoritos" onclick="toast('Sua lista de favoritos está vazia')">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z"/></svg>
-    </button>
-    <button aria-label="Carrinho, 2 itens" onclick="toast('Carrinho em breve')">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2 3h2l2.6 12.6a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 8H6"/></svg>
-      <span class="cart-badge">2</span>
-    </button>
-  </div>
-  <button class="nav-toggle" aria-label="Abrir menu" onclick="toast('Menu — versão mobile em breve')">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-  </button>
-</header>
-
-<div id="top"></div>
-<div class="page-layout">
-  <main class="main-col">
-
-    <!-- HERO -->
-    <section class="hero">
-      <div>
-        <div class="eyebrow">Skin Scan por IA</div>
-        <h1>Sua pele é única.<span class="accent">Seu skincare também.</span></h1>
-        <p>Descubra as necessidades da sua pele e encontre uma rotina personalizada para você, em menos de 2 minutos.</p>
-        <div class="hero-ctas">
-          <button class="btn-primary" onclick="openScan()">
-            <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/></svg>
-            Fazer meu Skin Scan
-          </button>
-          <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">Saiba mais</button>
-        </div>
-      </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="avatar" style="width:150px;height:150px;left:10%;top:8%;background:linear-gradient(135deg,var(--pink),var(--orange));">
-          <svg class="face-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".9" fill="currentColor" stroke="none"/><path d="M8.5 15c1.4 1.3 5.6 1.3 7 0"/></svg>
-        </div>
-        <div class="avatar" style="width:120px;height:120px;right:6%;top:4%;background:linear-gradient(135deg,var(--blue),var(--blue-light));animation-delay:1.2s;">
-          <svg class="face-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".9" fill="currentColor" stroke="none"/><path d="M8.5 15c1.4 1.3 5.6 1.3 7 0"/></svg>
-        </div>
-        <div class="avatar" style="width:130px;height:130px;left:22%;bottom:0;background:linear-gradient(135deg,var(--green-soft),var(--green-light));animation-delay:2s;">
-          <svg class="face-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".9" fill="currentColor" stroke="none"/><path d="M8.5 15c1.4 1.3 5.6 1.3 7 0"/></svg>
-        </div>
-        <div class="hero-chip" style="right:2%;bottom:14%;">
-          <svg class="icon" style="width:14px;height:14px;color:var(--pink)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3Z"/></svg>
-          2 min · resultado na hora
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="section about-section" id="about">
-      <div class="eyebrow">Sobre nós</div>
-      <h2 style="font-size:1.6rem;max-width:640px;margin-bottom:26px;">Skincare feito para peles que ainda estão se descobrindo</h2>
-      <div class="about-grid">
-        <div>
-          <p>A SkinMatch Beauty é uma marca de cosméticos e e-commerce focada em soluções de skincare altamente personalizadas para o público jovem, dos 15 aos 25 anos.</p>
-          <p style="margin-top:14px;">Sabemos que essa é a fase em que a pele mais muda — e mais confunde. Por isso existimos: para resolver a dor de quem não encontra produtos adequados ao seu tipo específico de pele e não quer pagar caro para testar até acertar.</p>
-          <div class="about-badge">
-            <svg class="icon" style="width:15px;height:15px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
-            Feito para quem tem entre 15 e 25 anos
-          </div>
-        </div>
-        <div class="about-side">
-          <h4 style="font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:14px;">As dores que resolvemos</h4>
-          <div class="concern-grid">
-            <div class="concern-card">
-              <div class="step-icon tint-pink"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/></svg></div>
-              <span>Acne</span>
-            </div>
-            <div class="concern-card">
-              <div class="step-icon tint-green"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c0-9 5-16 14-16-1 10-6 16-14 16Z"/><path d="M5 21c3-3 6-7 9-11"/></svg></div>
-              <span>Sensibilidade</span>
-            </div>
-            <div class="concern-card">
-              <div class="step-icon tint-yellow"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="14" cy="6.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="16" cy="13" r="1.7" fill="currentColor" stroke="none"/><circle cx="9" cy="16" r="1.2" fill="currentColor" stroke="none"/></svg></div>
-              <span>Manchas</span>
-            </div>
-            <div class="concern-card">
-              <div class="step-icon tint-blue"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3C12 3 6 11 6 15.5A6 6 0 0 0 18 15.5C18 11 12 3 12 3Z"/></svg></div>
-              <span>Oleosidade</span>
-            </div>
-          </div>
-          <p class="about-access-note">
-            <svg class="icon" style="width:14px;height:14px;color:var(--green)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-            Preços acessíveis, sem abrir mão da qualidade
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="section" id="how">
-      <h2 class="how-title">Como funciona</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <div class="step-icon tint-pink">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 .01 0Z"/><path d="M9 10h.01M15 10h.01M8.5 15c1.2 1.3 5.8 1.3 7 0"/></svg>
-          </div>
-          <h4>Conheça sua pele</h4>
-          <p>Responda perguntas e faça seu Skin Scan.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <div class="step-icon tint-yellow">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V10M10 19V6M16 19v-8"/><path d="M3 19h18"/></svg>
-          </div>
-          <h4>Descubra suas necessidades</h4>
-          <p>Receba uma análise personalizada.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <div class="step-icon tint-green">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3C12 3 6 11 6 15.5A6 6 0 0 0 18 15.5C18 11 12 3 12 3Z"/></svg>
-          </div>
-          <h4>Monte sua rotina</h4>
-          <p>Encontre produtos indicados para seu perfil.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">04</div>
-          <div class="step-icon tint-blue">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-          </div>
-          <h4>Cuide e acompanhe</h4>
-          <p>Siga sua rotina e veja os resultados com o tempo.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">05</div>
-          <div class="step-icon tint-green">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z"/></svg>
-          </div>
-          <h4>Evolua sempre</h4>
-          <p>Faça novos scans e acompanhe sua evolução.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRODUCTS -->
-    <section class="section" id="products" style="padding-top:8px;">
-      <div class="products-head">
-        <h2>Nossos produtos</h2>
-        <a href="#" onclick="toast('Catálogo completo em breve');return false;">Ver todos</a>
-      </div>
-      <div class="cat-pills" id="catPills"></div>
-      <div class="product-grid" id="productGrid"></div>
-
-      <div class="trust-row">
-        <div class="trust-item">
-          <div class="step-icon tint-pink"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg></div>
-          <p>Skincare para todas as pessoas</p>
-        </div>
-        <div class="trust-item">
-          <div class="step-icon tint-blue"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/></svg></div>
-          <p>Tecnologia que entende você</p>
-        </div>
-        <div class="trust-item">
-          <div class="step-icon tint-green"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c0-9 5-16 14-16-1 10-6 16-14 16Z"/><path d="M5 21c3-3 6-7 9-11"/></svg></div>
-          <p>Ingredientes seguros e de qualidade</p>
-        </div>
-        <div class="trust-item">
-          <div class="step-icon tint-yellow"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19l-3-5 3-5M17 19l3-5-3-5M9 4h6l2 4H7l2-4Z"/></svg></div>
-          <p>Sustentabilidade em cada detalhe</p>
-        </div>
-        <div class="trust-item">
-          <div class="step-icon tint-pink"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z"/></svg></div>
-          <p>Inclusão e respeito em primeiro lugar</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="widget" id="routineWidget">
-      <div class="widget-head">
-        <h3>Rotina personalizada</h3>
-        <a href="#" onclick="toast('Sua rotina completa em breve');return false;">Ver minha rotina completa ›</a>
-      </div>
-      <div class="routine-block">
-        <h5>
-          <svg class="icon" style="width:15px;height:15px;color:var(--orange)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2 2M17.8 17.8l2 2M2 12h3M19 12h3M4.2 19.8l2-2M17.8 6.2l2-2"/></svg>
-          Rotina da manhã
-        </h5>
-        <div class="routine-items">
-          <div class="routine-item"><div class="routine-icon" style="background:var(--pink-light)">🧴</div><span>Limpeza</span></div>
-          <div class="routine-item"><div class="routine-icon" style="background:var(--yellow)">💧</div><span>Tratamento</span></div>
-          <div class="routine-item"><div class="routine-icon" style="background:var(--blue-light)">🫙</div><span>Hidratação</span></div>
-          <div class="routine-item"><div class="routine-icon" style="background:var(--green-light)">☀️</div><span>Proteção</span></div>
-        </div>
-      </div>
-      <div class="routine-block">
-        <h5>
-          <svg class="icon" style="width:15px;height:15px;color:var(--blue)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
-          Rotina da noite
-        </h5>
-        <div class="routine-items">
-          <div class="routine-item"><div class="routine-icon" style="background:var(--pink-light)">🧴</div><span>Limpeza</span></div>
-          <div class="routine-item"><div class="routine-icon" style="background:var(--yellow)">💧</div><span>Tratamento</span></div>
-          <div class="routine-item"><div class="routine-icon" style="background:var(--blue-light)">🫙</div><span>Hidratação</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="widget refill-widget">
-      <h3>
-        <svg class="icon" style="color:var(--green)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19l-3-5 3-5M17 19l3-5-3-5M9 4h6l2 4H7l2-4Z"/></svg>
-        Programa de refil
-      </h3>
-      <p>Menos resíduos, mais beleza, mais futuro.</p>
-      <button class="btn-primary" onclick="toast('Programa de refil em breve')">Conhecer o programa</button>
-    </div>
-
-    <div class="widget" id="a11yWidget">
-      <div class="widget-head"><h3>Acessibilidade</h3></div>
-      <div class="a11y-row">
-        <span>Aumentar / diminuir texto</span>
-        <div class="text-size-btns">
-          <button aria-label="Diminuir texto" onclick="changeTextSize(-1)">A-</button>
-          <button aria-label="Aumentar texto" onclick="changeTextSize(1)">A+</button>
-        </div>
-      </div>
-      <div class="a11y-row">
-        <span>Alto contraste</span>
-        <div class="switch" id="swContrast" role="switch" aria-checked="false" tabindex="0" onclick="toggleContrast()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleContrast();}"></div>
-      </div>
-      <div class="a11y-row">
-        <span>Reduzir animações</span>
-        <div class="switch" id="swMotion" role="switch" aria-checked="false" tabindex="0" onclick="toggleMotion()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleMotion();}"></div>
-      </div>
-      <div class="a11y-row a11y-link" style="cursor:pointer" onclick="toast('Intérprete de Libras em breve')">
-        <span>Libras</span>
-        <svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </div>
-      <div class="a11y-row">
-        <span>Leitor de tela</span>
-        <div class="switch" id="swReader" role="switch" aria-checked="false" tabindex="0" onclick="toggleReader()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleReader();}"></div>
-      </div>
-    </div>
-
-    <div class="widget help-widget">
-      <div class="widget-head"><h3>Precisa de ajuda?</h3></div>
-      <div class="a11y-row" onclick="toast('WhatsApp em breve')">
-        <span style="display:flex;align-items:center;gap:8px;"><svg class="icon" style="width:16px;height:16px;color:var(--green)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.5-4A8 8 0 1 1 9 19l-5 1Z"/></svg>WhatsApp</span>
-      </div>
-      <div class="a11y-row" onclick="toast('E-mail em breve')">
-        <span style="display:flex;align-items:center;gap:8px;"><svg class="icon" style="width:16px;height:16px;color:var(--blue)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>E-mail</span>
-      </div>
-      <div class="a11y-row" onclick="toast('Perguntas frequentes em breve')" style="border-bottom:none;">
-        <span style="display:flex;align-items:center;gap:8px;"><svg class="icon" style="width:16px;height:16px;color:var(--orange)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 .9-1 1.7"/><circle cx="12" cy="16.5" r=".3" fill="currentColor"/></svg>Perguntas frequentes</span>
-        <div class="help-avatar">
-          <svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/></svg>
-        </div>
-      </div>
-    </div>
-  </aside>
-</div>
-
-<footer class="site-footer">
-  <div class="logo"><span class="word">SKIN<span>MATCH</span></span><span class="tag">BEAUTY</span></div>
-  <p>Tecnologia + cuidado para todos os tipos de pele. © 2026 SkinMatch Beauty.</p>
-</footer>
-
-<div id="toast" role="status" aria-live="polite"></div>
-<div id="srAnnouncer" class="sr-only" aria-live="polite"></div>
-
-<!-- ===== SKIN SCAN MODAL ===== -->
-<div class="modal-overlay" id="scanModal" onclick="if(event.target===this)closeScan()">
-  <button class="modal-close" aria-label="Fechar" onclick="closeScan()">
-    <svg class="icon" style="color:#fff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-  </button>
-  <div class="phone-frame">
-    <div class="phone-notch"></div>
-    <div class="phone-screen">
-      <div class="status-row">
-        <span>9:41</span>
-        <div style="display:flex;align-items:center;">
-          <div class="bars"><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
-          <div class="battery"><div class="battery-fill"></div></div>
-        </div>
-      </div>
-      <div class="app-topbar">
-        <button class="icon-btn" id="topbarLeftBtn" aria-label="Menu">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </button>
-        <div class="logo"><span class="word" style="font-size:.95rem;">SKIN<span>MATCH</span></span><span class="tag">BEAUTY</span></div>
-        <button class="icon-btn" aria-label="Carrinho">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2 3h2l2.6 12.6a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 8H6"/></svg>
-        </button>
-      </div>
-      <div class="phone-body" id="phoneBody"></div>
-      <div class="phone-nav" id="phoneNav">
-        <button class="fab" aria-label="Skin Scan" onclick="goToScreen(1)">
-          <svg class="icon" style="width:22px;height:22px;color:#fff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/></svg>
-        </button>
-        <div class="nav-item active"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h5v-6h2v6h5V10"/></svg>Início</div>
-        <div class="nav-item"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/></svg>Skin Scan</div>
-        <div class="nav-item"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Produtos</div>
-        <div class="nav-item"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z"/></svg>Favoritos</div>
-        <div class="nav-item"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>Perfil</div>
-      </div>
-    </div>
-  </div>
-</div>
+<div id="app"></div>
 
 <script>
-/* ================= ICONS ================= */
+/* ---------------------------------------------------------
+   DermaScan — protótipo funcional
+   Análise de pele via câmera + heurística de processamento
+   de imagem. NÃO é dispositivo médico certificado — serve
+   como ferramenta de triagem/orientação, sempre reforçando
+   o encaminhamento a um dermatologista.
+--------------------------------------------------------- */
+
+const state = {
+  screen: 'splash',
+  role: null,        // 'user' | 'admin'
+  userName: null,
+  navTab: 'home',
+  lastResult: null,
+  capturedImage: null,
+  loading: false,
+};
+
 const ICONS = {
-  droplet:'<path d="M12 3C12 3 6 11 6 15.5A6 6 0 0 0 18 15.5C18 11 12 3 12 3Z"/>',
-  dry:'<path d="M3 9l4-3 3 3 4-3 4 3 3-3"/><path d="M3 15l4-3 3 3 4-3 4 3 3-3"/>',
-  leaf:'<path d="M5 21c0-9 5-16 14-16-1 10-6 16-14 16Z"/><path d="M5 21c3-3 6-7 9-11"/>',
-  spots:'<circle cx="7" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="14" cy="6.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="16" cy="13" r="1.7" fill="currentColor" stroke="none"/><circle cx="9" cy="16" r="1.2" fill="currentColor" stroke="none"/>',
-  pores:'<circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r=".8" fill="currentColor" stroke="none"/><circle cx="14" cy="9" r=".8" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r=".8" fill="currentColor" stroke="none"/>',
-  texture:'<path d="M3 7c3-2 5-2 8 0s5 2 8 0"/><path d="M3 12c3-2 5-2 8 0s5 2 8 0"/><path d="M3 17c3-2 5-2 8 0s5 2 8 0"/>',
-  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2 2M17.8 17.8l2 2M2 12h3M19 12h3M4.2 19.8l2-2M17.8 6.2l2-2"/>',
-  noMakeup:'<circle cx="12" cy="12" r="8"/><path d="M9 9l6 6M15 9l-6 6"/>',
-  camera:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/>',
-  check:'<path d="M5 13l4 4L19 7"/>'
+  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>`,
+  history: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>`,
+  profile: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>`,
+  admin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="4" width="17" height="13" rx="2"/><path d="M8 20h8M12 17v3"/></svg>`,
+  users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M2.5 19a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15.8 12.2a5 5 0 0 1 5.7 5.6"/></svg>`,
 };
-function icon(name, cls){ return '<svg class="icon '+(cls||'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ICONS[name]+'</svg>'; }
-
-/* ================= TOAST ================= */
-let toastTimer;
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  document.getElementById('srAnnouncer').textContent = msg;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
-}
-function doSearch(){
-  const v = document.getElementById('searchInput').value.trim();
-  toast(v ? 'Em breve: busca por "'+v+'"' : 'Digite algo para buscar');
-}
-document.getElementById('searchInput').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); doSearch(); } });
-
-/* ================= ACCESSIBILITY ================= */
-let textScale = 1;
-function changeTextSize(dir){
-  textScale = Math.min(1.3, Math.max(0.85, textScale + dir*0.1));
-  document.documentElement.style.fontSize = (textScale*100)+'%';
-  toast('Tamanho do texto: '+Math.round(textScale*100)+'%');
-}
-function toggleContrast(){
-  const on = document.body.classList.toggle('contrast');
-  document.getElementById('swContrast').classList.toggle('on', on);
-  document.getElementById('swContrast').setAttribute('aria-checked', on);
-  toast('Alto contraste '+(on?'ativado':'desativado'));
-}
-function toggleMotion(){
-  const on = document.body.classList.toggle('reduce-motion');
-  document.getElementById('swMotion').classList.toggle('on', on);
-  document.getElementById('swMotion').setAttribute('aria-checked', on);
-  toast('Redução de animações '+(on?'ativada':'desativada'));
-}
-function toggleReader(){
-  const el = document.getElementById('swReader');
-  const on = !el.classList.contains('on');
-  el.classList.toggle('on', on);
-  el.setAttribute('aria-checked', on);
-  toast('Leitor de tela '+(on?'ativado':'desativado'));
-}
-
-/* ================= PRODUCTS ================= */
-const CAT_STYLE = {
-  'Limpeza':{bg:'var(--pink-light)', fg:'var(--pink)'},
-  'Hidratação':{bg:'var(--blue-light)', fg:'var(--blue)'},
-  'Séruns e Tratamentos':{bg:'var(--yellow)', fg:'var(--orange)'},
-  'Proteção Solar':{bg:'var(--green-light)', fg:'var(--green)'},
-  'Cuidados Masculinos':{bg:'var(--blue-light)', fg:'var(--blue)'},
-  'Kits':{bg:'var(--pink-light)', fg:'var(--pink)'}
-};
-const CATEGORIES = ['Todos','Limpeza','Hidratação','Séruns e Tratamentos','Proteção Solar','Cuidados Masculinos','Kits'];
-const CATALOG = [
-  {name:'Limpador Facial Gentil', desc:'Com micro-grânulos naturais e óleos botânicos.', cat:'Limpeza', shape:'tube'},
-  {name:'Bálsamo de Limpeza Facial', desc:'Textura balm, com óleos de sementes e botânicos.', cat:'Limpeza', shape:'jar'},
-  {name:'Soft Foam', desc:'Espuma de limpeza profunda, hidratação suave, pH equilibrado.', cat:'Limpeza', shape:'bottle'},
-  {name:'Clean Gel', desc:'Gel de limpeza com embalagem sustentável e reciclável.', cat:'Limpeza', shape:'bottle'},
-  {name:'Cleansing Oil', desc:'Óleo de limpeza e demaquilante, ingredientes orgânicos.', cat:'Limpeza', shape:'bottle'},
-  {name:'Hydro Balance', desc:'Hidratante para pele oleosa e mista.', cat:'Hidratação', shape:'bottle'},
-  {name:'Hydro Comfort', desc:'Hidratante para pele normal.', cat:'Hidratação', shape:'bottle'},
-  {name:'Hydro Repair', desc:'Hidratante para pele seca.', cat:'Hidratação', shape:'bottle'},
-  {name:'Sensitive Care', desc:'Hidratante para pele sensível.', cat:'Hidratação', shape:'bottle'},
-  {name:'Calm Mask', desc:'Máscara calmante em vidro e bambu recicláveis.', cat:'Hidratação', shape:'jar'},
-  {name:'Renew Serum', desc:'Sérum para linhas finas, com ácido hialurônico e bakuchiol.', cat:'Séruns e Tratamentos', shape:'dropper'},
-  {name:'Balance Serum', desc:'Sérum para oleosidade.', cat:'Séruns e Tratamentos', shape:'dropper'},
-  {name:'Glow Serum', desc:'Sérum iluminador, produzido em pequenos lotes.', cat:'Séruns e Tratamentos', shape:'dropper'},
-  {name:'Calm Serum', desc:'Sérum calmante para peles sensíveis.', cat:'Séruns e Tratamentos', shape:'dropper'},
-  {name:'Ritual Hidratante em 3 Passos', desc:'Esfoliação, creme hidratante e gel finalizador em dose única.', cat:'Kits', shape:'kit'},
-  {name:'Sun Shield FPS 50', desc:'Protetor solar facial.', cat:'Proteção Solar', shape:'dropper'},
-  {name:'Sun Shield Color', desc:'Protetor solar facial com cor.', cat:'Proteção Solar', shape:'bottle'},
-  {name:'Hydrate Mask', desc:'Máscara hidratante, linha masculina.', cat:'Cuidados Masculinos', shape:'jar'},
-  {name:'Gentle Polish', desc:'Esfoliante facial suave, linha masculina.', cat:'Cuidados Masculinos', shape:'jar'},
-  {name:'Beard Care', desc:'Sérum para barba e fios.', cat:'Cuidados Masculinos', shape:'dropper'},
-  {name:'Post Shave', desc:'Gel pós-barba.', cat:'Cuidados Masculinos', shape:'bottle'},
-  {name:'Follicle Care', desc:'Tratamento para a região da barba.', cat:'Cuidados Masculinos', shape:'dropper'}
-];
-function shapeSVG(shape, fg){
-  const s = {
-    bottle:'<rect x="8" y="6" width="8" height="16" rx="2"/><rect x="10" y="2" width="4" height="4" rx="1"/>',
-    jar:'<rect x="5" y="8" width="14" height="13" rx="3"/><rect x="6" y="4" width="12" height="5" rx="2"/>',
-    dropper:'<rect x="9.5" y="7" width="5" height="15" rx="2"/><path d="M12 7V3M9.5 3h5"/>',
-    tube:'<path d="M9 4h6l1 4-1 3v10a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V11l-1-3Z"/>',
-    kit:'<rect x="4" y="9" width="7" height="12" rx="1.5"/><rect x="13" y="6" width="7" height="15" rx="1.5"/>'
-  }[shape];
-  return '<svg width="52" height="52" viewBox="0 0 24 24" fill="'+fg+'" fill-opacity=".18" stroke="'+fg+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+s+'</svg>';
-}
-let activeCat = 'Todos';
-function renderCatalog(){
-  const list = activeCat==='Todos' ? CATALOG : CATALOG.filter(p=>p.cat===activeCat);
-  document.getElementById('productGrid').innerHTML = list.map(p=>{
-    const s = CAT_STYLE[p.cat];
-    return '<div class="product-card" onclick="toast(\''+('Página de '+p.name+' em breve').replace(/'/g,"\\'")+'\')">'+
-      '<div class="product-icon-wrap" style="background:'+s.bg+';border-radius:16px;">'+shapeSVG(p.shape,s.fg)+'</div>'+
-      '<span class="product-tag" style="background:'+s.bg+';color:'+s.fg+'">'+p.cat+'</span>'+
-      '<h4>'+p.name+'</h4><p class="desc">'+p.desc+'</p><span class="see-more">Ver mais ›</span>'+
-    '</div>';
-  }).join('');
-}
-document.getElementById('catPills').innerHTML = CATEGORIES.map(c=>
-  '<button class="cat-pill '+(c==='Todos'?'active':'')+'" data-cat="'+c+'" onclick="filterCatalog(\''+c+'\')">'+c+'</button>'
-).join('');
-function filterCatalog(cat){
-  activeCat = cat;
-  document.querySelectorAll('.cat-pill').forEach(el=>el.classList.toggle('active', el.dataset.cat===cat));
-  renderCatalog();
-}
-renderCatalog();
-
-/* ================= SKIN SCAN FLOW ================= */
-const QUIZ_OPTIONS = [
-  {id:'oleosidade', label:'Oleosidade', icon:'droplet'},
-  {id:'ressecamento', label:'Ressecamento', icon:'dry'},
-  {id:'sensibilidade', label:'Sensibilidade', icon:'leaf'},
-  {id:'manchas', label:'Manchas', icon:'spots'},
-  {id:'poros', label:'Poros dilatados', icon:'pores'},
-  {id:'textura', label:'Textura irregular', icon:'texture'}
-];
-const NEED_MAP = {
-  oleosidade:{label:'Controle da oleosidade', priority:'Média prioridade', icon:'droplet', tint:'green'},
-  ressecamento:{label:'Hidratação profunda', priority:'Alta prioridade', icon:'droplet', tint:'blue'},
-  sensibilidade:{label:'Ação calmante', priority:'Alta prioridade', icon:'leaf', tint:'green'},
-  manchas:{label:'Uniformidade da pele', priority:'Média prioridade', icon:'spots', tint:'orange'},
-  poros:{label:'Controle de poros', priority:'Média prioridade', icon:'pores', tint:'blue'},
-  textura:{label:'Renovação da textura', priority:'Média prioridade', icon:'texture', tint:'orange'}
-};
-const ANALYZE_ITEMS = ['Oleosidade','Hidratação','Textura','Manchas','Poros','Uniformidade','Vermelhidão'];
-
-const state = { screen:1, concerns:new Set(), progress:0, timer:null };
-
-function openScan(){
-  state.screen = 1; state.concerns = new Set(); state.progress = 0;
-  clearInterval(state.timer);
-  document.getElementById('scanModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  render();
-}
-function closeScan(){
-  document.getElementById('scanModal').classList.remove('open');
-  document.body.style.overflow = '';
-  clearInterval(state.timer);
-}
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeScan(); });
-
-function goToScreen(n){ state.screen = n; render(); }
-
-function toggleConcern(id){
-  if(state.concerns.has(id)) state.concerns.delete(id); else state.concerns.add(id);
-  render();
-}
-
-function startAnalysis(){
-  state.screen = 4; state.progress = 0; render();
-  clearInterval(state.timer);
-  state.timer = setInterval(()=>{
-    state.progress = Math.min(100, state.progress + 4);
-    updateAnalyzing();
-    if(state.progress>=100){
-      clearInterval(state.timer);
-      setTimeout(()=>{ state.screen = 5; render(); }, 500);
-    }
-  }, 130);
-}
-
-function viewRoutine(){
-  closeScan();
-  const w = document.getElementById('routineWidget');
-  w.scrollIntoView({behavior:'smooth', block:'center'});
-  w.classList.add('highlight');
-  setTimeout(()=>w.classList.remove('highlight'), 1600);
-}
-
-function profileText(){
-  const ids = [...state.concerns];
-  if(ids.length===0) return 'Pele equilibrada, com necessidades gerais de hidratação e proteção.';
-  const labels = ids.map(id=>QUIZ_OPTIONS.find(o=>o.id===id).label.toLowerCase());
-  const joined = labels.length===1 ? labels[0] : labels.slice(0,-1).join(', ')+' e '+labels[labels.length-1];
-  return 'Pele com tendência à '+joined+'. Vamos montar uma rotina para equilibrar essas necessidades.';
-}
-
-function buildNeeds(){
-  const ids = [...state.concerns];
-  let needs = ids.map(id=>NEED_MAP[id]);
-  needs.push({label:'Proteção solar diária', priority:'Essencial', icon:'sun', tint:'pink'});
-  const seen = new Set(); needs = needs.filter(n=>!seen.has(n.label) && seen.add(n.label));
-  return needs.slice(0,5);
-}
 
 function render(){
-  const dots = n => '<div class="step-dots">'+[1,2,3,4,5].map(i=>'<span class="'+(i===n?'active':'')+'"></span>').join('')+'</div>';
-  const backBtn = onclick => '<div class="back-row"><button class="back-btn" aria-label="Voltar" onclick="'+onclick+'"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button></div>';
-  let html = '';
-  const nav = document.getElementById('phoneNav');
-  const topbarLeft = document.getElementById('topbarLeftBtn');
-
-  if(state.screen===1){
-    nav.style.display='flex'; topbarLeft.onclick=closeScan;
-    html = '<div class="screen">'+
-      '<h2 style="font-size:1.7rem;margin-top:6px;">Sua pele é única.<br><span style="color:var(--pink)">Seu skincare também.</span></h2>'+
-      '<p class="sub">Descubra as necessidades da sua pele e encontre uma rotina personalizada para você.</p>'+
-      '<div class="intro-art">'+
-        '<div class="avatar" style="width:110px;height:110px;left:6%;top:10%;background:linear-gradient(135deg,var(--pink),var(--orange));">'+
-          '<svg class="face-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".9" fill="currentColor" stroke="none"/><path d="M8.5 15c1.4 1.3 5.6 1.3 7 0"/></svg></div>'+
-        '<div class="avatar" style="width:90px;height:90px;right:8%;top:0;background:linear-gradient(135deg,var(--blue),var(--blue-light));animation-delay:1s;">'+
-          '<svg class="face-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".9" fill="currentColor" stroke="none"/><path d="M8.5 15c1.4 1.3 5.6 1.3 7 0"/></svg></div>'+
-        '<div class="avatar" style="width:100px;height:100px;left:28%;bottom:0;background:linear-gradient(135deg,var(--green-soft),var(--green-light));animation-delay:2s;">'+
-          '<svg class="face-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".9" fill="currentColor" stroke="none"/><path d="M8.5 15c1.4 1.3 5.6 1.3 7 0"/></svg></div>'+
-      '</div>'+
-      '<button class="btn-primary btn-block" onclick="goToScreen(2)">Fazer meu Skin Scan</button>'+
-    '</div>';
-  }
-  else if(state.screen===2){
-    nav.style.display='none'; topbarLeft.onclick=()=>goToScreen(1);
-    html = backBtn('goToScreen(1)')+dots(2)+
-      '<h2>Como está sua pele hoje?</h2><p class="sub">Selecione todas que se aplicam</p>'+
-      '<div class="option-grid">'+QUIZ_OPTIONS.map(o=>
-        '<button class="option-card '+(state.concerns.has(o.id)?'selected':'')+'" onclick="toggleConcern(\''+o.id+'\')">'+
-          '<div class="opt-icon">'+icon(o.icon)+'</div><span>'+o.label+'</span>'+
-        '</button>'
-      ).join('')+'</div>'+
-      '<button class="btn-primary btn-block" '+(state.concerns.size===0?'style="opacity:.45;pointer-events:none;"':'')+' onclick="goToScreen(3)">Continuar</button>';
-  }
-  else if(state.screen===3){
-    nav.style.display='none'; topbarLeft.onclick=()=>goToScreen(2);
-    html = backBtn('goToScreen(2)')+dots(3)+
-      '<h2>Posicione seu rosto</h2><p class="sub">Centralize seu rosto na área indicada e mantenha uma expressão neutra.</p>'+
-      '<div class="face-frame-wrap"><div class="face-frame"><svg class="face-glyph-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="9.3" cy="10" r=".8" fill="currentColor" stroke="none"/><circle cx="14.7" cy="10" r=".8" fill="currentColor" stroke="none"/><path d="M8.7 15.2c1.6 1.4 4.9 1.4 6.5 0"/><path d="M12 3a9 9 0 1 0 .01 0Z"/></svg></div></div>'+
-      '<div class="tips-row">'+
-        '<div class="tip"><div class="step-icon tint-yellow">'+icon('sun')+'</div><p>Ambiente bem iluminado</p></div>'+
-        '<div class="tip"><div class="step-icon tint-pink">'+icon('noMakeup')+'</div><p>Sem maquiagem e filtros</p></div>'+
-        '<div class="tip"><div class="step-icon tint-blue">'+icon('camera')+'</div><p>Olhe para a câmera</p></div>'+
-      '</div>'+
-      '<button class="btn-primary btn-block" style="margin-top:14px;" onclick="startAnalysis()">Iniciar análise</button>';
-  }
-  else if(state.screen===4){
-    nav.style.display='none'; topbarLeft.onclick=()=>goToScreen(3);
-    html = backBtn('goToScreen(3)')+dots(4)+
-      '<h2>Analisando sua pele...</h2><p class="sub">Isso pode levar alguns segundos.</p>'+
-      '<div class="progress-wrap"><div class="progress-ring" id="progressRing"><div class="progress-inner" id="progressText">0%</div></div></div>'+
-      '<ul class="analyze-list" id="analyzeList">'+ANALYZE_ITEMS.map(t=>'<li><span class="dot"></span><span>'+t+'</span></li>').join('')+'</ul>';
-  }
-  else if(state.screen===5){
-    nav.style.display='flex'; topbarLeft.onclick=closeScan;
-    const needs = buildNeeds();
-    html = '<div class="screen">'+
-      '<h2 style="margin-top:6px;">Seu SkinMatch está pronto! ✨</h2>'+
-      '<div class="result-card"><h5>Perfil da sua pele</h5><p>'+profileText()+'</p></div>'+
-      '<div class="result-card"><h5>Principais necessidades</h5>'+
-        needs.map(n=>'<div class="need-row"><div class="need-icon" style="background:var(--'+(n.tint==='pink'?'pink-light':n.tint==='blue'?'blue-light':n.tint==='green'?'green-light':'yellow')+');color:var(--'+(n.tint==='green'?'green':n.tint==='orange'?'orange':n.tint)+')">'+icon(n.icon)+'</div><div class="need-text"><strong>'+n.label+'</strong><span>'+n.priority+'</span></div></div>').join('')+
-      '</div>'+
-      '<button class="btn-primary btn-block" onclick="viewRoutine()">Ver minha rotina</button>'+
-    '</div>';
-  }
-
-  document.getElementById('phoneBody').innerHTML = html;
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  const el = SCREENS[state.screen] ? SCREENS[state.screen]() : SCREENS.splash();
+  app.appendChild(el);
 }
 
-function updateAnalyzing(){
-  const ring = document.getElementById('progressRing');
-  const txt = document.getElementById('progressText');
-  if(!ring) return;
-  ring.style.background = 'conic-gradient(var(--pink) '+(state.progress*3.6)+'deg, var(--border) 0deg)';
-  txt.textContent = state.progress+'%';
-  const items = document.querySelectorAll('#analyzeList li');
-  const doneCount = Math.round((state.progress/100)*ANALYZE_ITEMS.length);
-  items.forEach((li,i)=>{
-    if(i<doneCount && !li.classList.contains('checked')){
-      li.classList.add('checked');
-      li.innerHTML = '<svg class="check-icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg><span>'+ANALYZE_ITEMS[i]+'</span>';
+function h(html){
+  const t = document.createElement('template');
+  t.innerHTML = html.trim();
+  return t.content.firstChild;
+}
+
+function goto(screen){ state.screen = screen; render(); window.scrollTo(0,0); }
+
+/* ---------------- Storage helpers ---------------- */
+async function saveAnalysis(record){
+  try{
+    await window.storage.set('analyses:'+record.id, JSON.stringify(record), true);
+    const idx = await safeGet('index:analyses', true);
+    const list = idx ? JSON.parse(idx.value) : [];
+    list.unshift(record.id);
+    await window.storage.set('index:analyses', JSON.stringify(list), true);
+  }catch(e){ console.error('save error', e); }
+}
+async function safeGet(key, shared){
+  try{ return await window.storage.get(key, shared); }catch(e){ return null; }
+}
+async function getAllAnalyses(){
+  const idx = await safeGet('index:analyses', true);
+  if(!idx) return [];
+  const ids = JSON.parse(idx.value);
+  const results = [];
+  for(const id of ids){
+    const r = await safeGet('analyses:'+id, true);
+    if(r) results.push(JSON.parse(r.value));
+  }
+  return results;
+}
+async function registerUser(name){
+  try{
+    const key = 'users:'+name.toLowerCase();
+    const existing = await safeGet(key, true);
+    if(!existing){
+      await window.storage.set(key, JSON.stringify({name, createdAt:Date.now()}), true);
+      const idx = await safeGet('index:users', true);
+      const list = idx ? JSON.parse(idx.value) : [];
+      if(!list.includes(name.toLowerCase())){ list.push(name.toLowerCase()); }
+      await window.storage.set('index:users', JSON.stringify(list), true);
     }
-  });
+  }catch(e){ console.error(e); }
 }
+async function getAllUsers(){
+  const idx = await safeGet('index:users', true);
+  if(!idx) return [];
+  const keys = JSON.parse(idx.value);
+  const out = [];
+  for(const k of keys){
+    const r = await safeGet('users:'+k, true);
+    if(r) out.push(JSON.parse(r.value));
+  }
+  return out;
+}
+
+/* ---------------- Image analysis (heuristic) ---------------- */
+function analyzeImageData(imgEl){
+  const canvas = document.createElement('canvas');
+  const size = 240;
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(imgEl, 0, 0, size, size);
+  const data = ctx.getImageData(0,0,size,size).data;
+
+  const cols=24, rows=24;
+  const cw = Math.floor(size/cols), ch = Math.floor(size/rows);
+  let oily=0, dry=0, acne=0, sarda=0, total=0;
+  let brightnessSum=0;
+
+  for(let cy=0; cy<rows; cy++){
+    for(let cx=0; cx<cols; cx++){
+      let rs=0,gs=0,bs=0,n=0;
+      let vals=[];
+      for(let y=0;y<ch;y++){
+        for(let x=0;x<cw;x++){
+          const px = ((cy*ch+y)*size + (cx*cw+x))*4;
+          if(px+2 >= data.length) continue;
+          const r=data[px], g=data[px+1], b=data[px+2];
+          rs+=r; gs+=g; bs+=b; n++;
+          vals.push((r+g+b)/3);
+        }
+      }
+      if(n===0) continue;
+      const r=rs/n, g=gs/n, b=bs/n;
+      const brightness = (r+g+b)/3/255;
+      brightnessSum += brightness;
+      const mean = vals.reduce((a,c)=>a+c,0)/vals.length;
+      const variance = vals.reduce((a,c)=>a+(c-mean)*(c-mean),0)/vals.length;
+      const max = Math.max(r,g,b), min = Math.min(r,g,b);
+      const sat = max===0 ? 0 : (max-min)/max;
+
+      total++;
+      // shine / oleosidade: muito claro, baixa saturação, baixa variância local
+      if(brightness>0.72 && sat<0.28 && variance<180){ oily++; continue; }
+      // acne: predominância avermelhada, saturação moderada-alta
+      if(r-g>18 && r-b>22 && sat>0.22 && brightness<0.78 && brightness>0.28){ acne++; continue; }
+      // sardas/manchas: tom castanho, mais escuro que a média local, saturação moderada
+      if(r>g && g>=b && (r-b)>10 && (r-b)<40 && brightness<0.62 && brightness>0.25 && variance<260){ sarda++; continue; }
+      // ressecamento: variância local alta (textura irregular), brilho médio-baixo
+      if(variance>320 && brightness<0.68){ dry++; continue; }
+    }
+  }
+
+  const pct = (n)=> total? Math.round((n/total)*100) : 0;
+  const oleosidade = pct(oily);
+  const ressecamento = pct(dry);
+  const acnePct = pct(acne);
+  const sardaPct = pct(sarda);
+  const avgBrightness = Math.round((brightnessSum/total)*100);
+
+  let tipo = 'Normal / Equilibrada';
+  if(oleosidade>=22 && ressecamento>=14) tipo='Mista';
+  else if(oleosidade>=22) tipo='Oleosa';
+  else if(ressecamento>=18) tipo='Seca';
+
+  let acneNivel = 'Baixo';
+  if(acnePct>=18) acneNivel='Alto';
+  else if(acnePct>=8) acneNivel='Moderado';
+
+  let sardaNivel = 'Baixo';
+  if(sardaPct>=16) sardaNivel='Alto';
+  else if(sardaPct>=7) sardaNivel='Moderado';
+
+  return { oleosidade, ressecamento, acnePct, acneNivel, sardaPct, sardaNivel, tipo, avgBrightness };
+}
+
+function treatmentFor(result){
+  const tips = [];
+  if(result.tipo==='Oleosa'){
+    tips.push('Limpador facial em gel com pH balanceado, 2x ao dia.');
+    tips.push('Hidratante oil-free ou em gel, não comedogênico.');
+    tips.push('Ativos como niacinamida ou ácido salicílico em baixa concentração podem ajudar no controle de oleosidade.');
+  } else if(result.tipo==='Seca'){
+    tips.push('Limpador cremoso, sem sulfatos agressivos.');
+    tips.push('Hidratante rico em ceramidas e ácido hialurônico, 2x ao dia.');
+    tips.push('Evitar esfoliações físicas frequentes; preferir esfoliação química suave.');
+  } else if(result.tipo==='Mista'){
+    tips.push('Rotina diferenciada por região do rosto (zona T x bochechas).');
+    tips.push('Hidratante leve em gel-creme.');
+  } else {
+    tips.push('Rotina de manutenção: limpeza suave + hidratação leve.');
+  }
+  if(result.acneNivel!=='Baixo'){
+    tips.push('Evitar espremer lesões; considerar ativos como peróxido de benzoíla ou adapaleno, sob orientação médica.');
+  }
+  if(result.sardaNivel!=='Baixo'){
+    tips.push('Uso diário de protetor solar FPS 50+ é essencial para não escurecer as manchas.');
+    tips.push('Ativos clareadores (vitamina C, ácido tranexâmico) podem ser indicados por um dermatologista.');
+  }
+  tips.push('Protetor solar diário, independente do tipo de pele.');
+  return tips;
+}
+
+/* ---------------- Screens ---------------- */
+const SCREENS = {};
+
+SCREENS.splash = function(){
+  const el = h(`
+    <div class="screen fade-in" style="display:flex;flex-direction:column;justify-content:center;min-height:100vh;text-align:center;">
+      <div style="width:96px;height:96px;border-radius:50%;background:var(--navy);margin:0 auto 22px;position:relative;overflow:hidden;">
+        <div class="sweep" style="border-radius:50%;"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#F4DCD4" stroke-width="1.6"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg>
+        </div>
+      </div>
+      <div class="eyebrow" style="margin-bottom:6px;">Triagem dermatológica assistida</div>
+      <h1 style="font-size:34px;">Skinmatch beauty</h1>
+      <p style="color:var(--ink-soft);margin-top:10px;font-size:14.5px;line-height:1.55;padding:0 8px;">
+        Aponte a câmera, entenda sua pele e receba orientações — sempre com o dermatologista no centro do cuidado.
+      </p>
+      <div style="margin-top:36px;" class="stack">
+        <button class="btn btn-primary" onclick="chooseRole('user')">Entrar como Usuário</button>
+        <button class="btn btn-outline" onclick="chooseRole('admin')">Entrar como Administrador</button>
+      </div>
+    </div>
+  `);
+  return el;
+};
+
+window.chooseRole = function(role){
+  state.role = role;
+  goto(role==='admin' ? 'adminLogin' : 'userLogin');
+};
+
+SCREENS.userLogin = function(){
+  const el = h(`
+    <div class="screen fade-in" style="padding-top:60px;">
+      <div class="eyebrow">Perfil de usuário</div>
+      <h2 style="font-size:26px;margin-top:6px;">Como podemos te chamar?</h2>
+      <p style="color:var(--ink-soft);font-size:13.5px;margin-top:8px;">Seu nome identifica seu histórico de análises no app.</p>
+      <input id="nameInput" class="field" placeholder="Seu nome" style="margin-top:22px;">
+      <button class="btn btn-rose" style="margin-top:16px;" onclick="submitUserLogin()">Continuar</button>
+      <button class="btn btn-ghost" onclick="goto('splash')">Voltar</button>
+    </div>
+  `);
+  return el;
+};
+window.submitUserLogin = async function(){
+  const val = document.getElementById('nameInput').value.trim();
+  if(!val){ shake('nameInput'); return; }
+  state.userName = val;
+  await registerUser(val);
+  goto('userHome');
+};
+
+SCREENS.adminLogin = function(){
+  const el = h(`
+    <div class="screen fade-in" style="padding-top:60px;">
+      <div class="eyebrow">Perfil administrador</div>
+      <h2 style="font-size:26px;margin-top:6px;">Acesso restrito</h2>
+      <p style="color:var(--ink-soft);font-size:13.5px;margin-top:8px;">Painel de acompanhamento das análises realizadas na clínica.</p>
+      <input id="adminUser" class="field" placeholder="Usuário administrador" style="margin-top:22px;">
+      <input id="adminPass" type="password" class="field" placeholder="Senha (demo: admin123)">
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="submitAdminLogin()">Entrar</button>
+      <button class="btn btn-ghost" onclick="goto('splash')">Voltar</button>
+    </div>
+  `);
+  return el;
+};
+window.submitAdminLogin = function(){
+  const pass = document.getElementById('adminPass').value;
+  const user = document.getElementById('adminUser').value.trim() || 'Administrador';
+  if(pass !== 'admin123'){ shake('adminPass'); return; }
+  state.userName = user;
+  goto('adminHome');
+};
+
+function shake(id){
+  const elm = document.getElementById(id);
+  elm.style.borderColor = '#C0453A';
+  elm.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:280});
+}
+
+/* ---- USER: Home / Capture ---- */
+SCREENS.userHome = function(){
+  const el = h(`
+    <div>
+      <div class="topbar">
+        <div class="avatar">${(state.userName||'?')[0].toUpperCase()}</div>
+        <div>
+          <div class="eyebrow">Olá,</div>
+          <div style="font-family:'Fraunces';font-weight:600;font-size:16px;">${state.userName}</div>
+        </div>
+      </div>
+      <div class="screen">
+        <div class="card" style="background:linear-gradient(135deg,var(--navy),#3A4C5F);color:#fff;">
+          <div class="eyebrow" style="color:#B9C6D1;">Nova análise</div>
+          <h2 style="color:#fff;font-size:22px;margin-top:6px;">Vamos escanear sua pele</h2>
+          <p style="color:#D7DFE5;font-size:13px;margin-top:8px;line-height:1.5;">
+            Use boa iluminação natural, rosto limpo e sem maquiagem para um resultado mais fiel.
+          </p>
+          <div class="row" style="margin-top:18px;gap:10px;">
+            <button class="btn btn-rose" onclick="document.getElementById('cameraInput').click()">📷 Usar câmera</button>
+          </div>
+          <input type="file" id="cameraInput" accept="image/*" capture="user" onchange="handleImageSelected(event)">
+        </div>
+
+        <div class="divider"></div>
+        <div class="eyebrow">Últimas análises</div>
+        <div id="recentList" style="margin-top:12px;" class="stack">Carregando…</div>
+      </div>
+    </div>
+  `);
+  loadRecentForUser(el);
+  return el;
+};
+
+async function loadRecentForUser(el){
+  const all = await getAllAnalyses();
+  const mine = all.filter(a=>a.userName===state.userName).slice(0,3);
+  const container = el.querySelector('#recentList');
+  if(!container) return;
+  if(mine.length===0){
+    container.innerHTML = `<div class="card empty" style="padding:26px;">Nenhuma análise ainda. Faça a primeira acima ↑</div>`;
+    return;
+  }
+  container.innerHTML = mine.map(a=>`
+    <div class="card row" style="padding:14px 16px;">
+      <img src="${a.image}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;">${a.result.tipo}</div>
+        <div class="eyebrow">${new Date(a.timestamp).toLocaleDateString('pt-BR')}</div>
+      </div>
+      <span class="pill">${a.result.acneNivel!=='Baixo' ? 'Acne '+a.result.acneNivel : 'Estável'}</span>
+    </div>
+  `).join('');
+}
+
+window.handleImageSelected = function(evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    state.capturedImage = e.target.result;
+    goto('analyzing');
+  };
+  reader.readAsDataURL(file);
+};
+
+/* ---- USER: Analyzing (signature scan animation) ---- */
+SCREENS.analyzing = function(){
+  const el = h(`
+    <div class="screen fade-in" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;">
+      <div class="scanwrap">
+        <img src="${state.capturedImage}">
+        <div class="sweep"></div>
+        <div class="scan-ring"></div>
+        <div class="scan-ring d2"></div>
+        <div class="scan-ring d3"></div>
+      </div>
+      <div style="text-align:center;margin-top:14px;">
+        <div class="eyebrow">Analisando</div>
+        <div id="scanLabel" class="mono" style="margin-top:6px;font-size:13px;color:var(--ink-soft);">Lendo textura e tom de pele…</div>
+      </div>
+    </div>
+  `);
+  const labels = ['Lendo textura e tom de pele…','Detectando brilho e oleosidade…','Mapeando possíveis manchas…','Calculando recomendações…'];
+  let i=0;
+  const interval = setInterval(()=>{
+    i = (i+1) % labels.length;
+    const lbl = el.querySelector('#scanLabel');
+    if(lbl) lbl.textContent = labels[i]; else clearInterval(interval);
+  }, 700);
+
+  setTimeout(async ()=>{
+    clearInterval(interval);
+    const img = new Image();
+    img.onload = async ()=>{
+      const result = analyzeImageData(img);
+      const record = {
+        id: 'a_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),
+        userName: state.userName,
+        timestamp: Date.now(),
+        image: state.capturedImage,
+        result
+      };
+      state.lastResult = record;
+      await saveAnalysis(record);
+      goto('results');
+    };
+    img.src = state.capturedImage;
+  }, 2600);
+
+  return el;
+};
+
+/* ---- USER: Results ---- */
+SCREENS.results = function(){
+  const r = state.lastResult.result;
+  const tips = treatmentFor(r);
+  const bar = (val, color)=>`<div class="metric-bar"><div class="metric-fill" style="width:${val}%;background:${color};"></div></div>`;
+  const el = h(`
+    <div class="screen fade-in">
+      <div class="row">
+        <button class="btn-ghost" style="width:auto;padding:6px;" onclick="goto('userHome')">← Início</button>
+      </div>
+      <div class="card" style="text-align:center;margin-top:10px;">
+        <img src="${state.lastResult.image}" style="width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid var(--rose-soft);">
+        <div class="eyebrow" style="margin-top:14px;">Resultado da análise</div>
+        <h2 style="font-size:26px;margin-top:4px;">${r.tipo}</h2>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <div class="stack">
+          <div>
+            <div class="row"><span style="font-size:13.5px;font-weight:600;">Oleosidade</span><span class="spacer"></span><span class="mono" style="font-size:12px;">${r.oleosidade}%</span></div>
+            ${bar(r.oleosidade,'var(--gold)')}
+          </div>
+          <div>
+            <div class="row"><span style="font-size:13.5px;font-weight:600;">Ressecamento</span><span class="spacer"></span><span class="mono" style="font-size:12px;">${r.ressecamento}%</span></div>
+            ${bar(r.ressecamento,'var(--navy)')}
+          </div>
+          <div>
+            <div class="row"><span style="font-size:13.5px;font-weight:600;">Sinais de acne</span><span class="spacer"></span><span class="pill ${r.acneNivel!=='Baixo'?'pill-rose':''}">${r.acneNivel}</span></div>
+            ${bar(r.acnePct,'var(--rose)')}
+          </div>
+          <div>
+            <div class="row"><span style="font-size:13.5px;font-weight:600;">Sardas / manchas</span><span class="spacer"></span><span class="pill ${r.sardaNivel!=='Baixo'?'pill-alert':''}">${r.sardaNivel}</span></div>
+            ${bar(r.sardaPct,'#B08D3E')}
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="eyebrow">Rotina sugerida</div>
+      <div class="card" style="margin-top:10px;">
+        <ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.9;color:var(--ink);">
+          ${tips.map(t=>`<li>${t}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="disclaimer" style="margin-top:16px;">
+        ⚠️ Esta análise é uma estimativa gerada por processamento de imagem, não um diagnóstico médico.
+        Para confirmação e tratamento adequado, consulte sempre um <strong>dermatologista</strong>.
+      </div>
+
+      <button class="btn btn-primary" style="margin-top:20px;" onclick="goto('userHome')">Concluir</button>
+    </div>
+  `);
+  return el;
+};
+
+/* ---- USER: History ---- */
+SCREENS.userHistory = function(){
+  const el = h(`
+    <div>
+      <div class="topbar"><h2 style="font-size:19px;">Histórico</h2></div>
+      <div class="screen" id="histWrap"><div class="empty">Carregando…</div></div>
+    </div>
+  `);
+  (async()=>{
+    const all = await getAllAnalyses();
+    const mine = all.filter(a=>a.userName===state.userName);
+    const wrap = el.querySelector('#histWrap');
+    if(mine.length===0){ wrap.innerHTML = `<div class="empty">Nenhuma análise registrada ainda.</div>`; return; }
+    wrap.innerHTML = mine.map(a=>`
+      <div class="card row" style="margin-bottom:12px;padding:14px 16px;" onclick='openHistoryItem(${JSON.stringify(a.id)})'>
+        <img src="${a.image}" style="width:50px;height:50px;border-radius:12px;object-fit:cover;">
+        <div style="flex:1;">
+          <div style="font-weight:600;font-size:14.5px;">${a.result.tipo}</div>
+          <div class="eyebrow">${new Date(a.timestamp).toLocaleString('pt-BR')}</div>
+        </div>
+        <span class="pill ${a.result.acneNivel!=='Baixo'?'pill-rose':''}">Acne: ${a.result.acneNivel}</span>
+      </div>
+    `).join('');
+    window._histCache = mine;
+  })();
+  return el;
+};
+window.openHistoryItem = function(id){
+  const item = (window._histCache||[]).find(a=>a.id===id);
+  if(!item) return;
+  state.lastResult = item;
+  goto('results');
+};
+
+/* ---- USER: Profile ---- */
+SCREENS.userProfile = function(){
+  const el = h(`
+    <div>
+      <div class="topbar"><h2 style="font-size:19px;">Perfil</h2></div>
+      <div class="screen">
+        <div class="card" style="text-align:center;">
+          <div class="avatar" style="width:64px;height:64px;font-size:24px;margin:0 auto;">${(state.userName||'?')[0].toUpperCase()}</div>
+          <h3 style="margin-top:14px;font-size:20px;">${state.userName}</h3>
+          <div class="eyebrow" style="margin-top:4px;">Perfil de usuário</div>
+        </div>
+        <div class="disclaimer" style="margin-top:16px;">
+          Este app oferece triagem informativa sobre a pele e não substitui consulta, diagnóstico ou tratamento com um dermatologista licenciado.
+        </div>
+        <button class="btn btn-outline" style="margin-top:20px;" onclick="logout()">Sair</button>
+      </div>
+    </div>
+  `);
+  return el;
+};
+
+window.logout = function(){
+  state.role=null; state.userName=null; state.lastResult=null; state.capturedImage=null; state.navTab='home';
+  goto('splash');
+};
+
+/* ---- ADMIN: Home / Dashboard ---- */
+SCREENS.adminHome = function(){
+  const el = h(`
+    <div>
+      <div class="topbar">
+        <div class="avatar" style="background:var(--navy-soft);color:var(--navy);">${ICONS.admin}</div>
+        <div>
+          <div class="eyebrow">Painel administrativo</div>
+          <div style="font-family:'Fraunces';font-weight:600;font-size:16px;">${state.userName}</div>
+        </div>
+      </div>
+      <div class="screen">
+        <div id="statsWrap" class="row" style="gap:12px;">
+          <div class="card" style="flex:1;text-align:center;">Carregando…</div>
+        </div>
+        <div class="divider"></div>
+        <div class="eyebrow">Análises recentes (todos os usuários)</div>
+        <div id="adminList" style="margin-top:12px;" class="stack"></div>
+      </div>
+    </div>
+  `);
+  loadAdminData(el);
+  return el;
+};
+
+async function loadAdminData(el){
+  const all = await getAllAnalyses();
+  const users = await getAllUsers();
+  const statsWrap = el.querySelector('#statsWrap');
+  const acneAlto = all.filter(a=>a.result.acneNivel==='Alto').length;
+  statsWrap.innerHTML = `
+    <div class="card" style="flex:1;text-align:center;padding:16px 8px;">
+      <div class="mono" style="font-size:22px;font-weight:600;">${users.length}</div>
+      <div class="eyebrow" style="margin-top:4px;">Usuários</div>
+    </div>
+    <div class="card" style="flex:1;text-align:center;padding:16px 8px;">
+      <div class="mono" style="font-size:22px;font-weight:600;">${all.length}</div>
+      <div class="eyebrow" style="margin-top:4px;">Análises</div>
+    </div>
+    <div class="card" style="flex:1;text-align:center;padding:16px 8px;">
+      <div class="mono" style="font-size:22px;font-weight:600;color:var(--rose);">${acneAlto}</div>
+      <div class="eyebrow" style="margin-top:4px;">Acne alta</div>
+    </div>
+  `;
+  const list = el.querySelector('#adminList');
+  if(all.length===0){ list.innerHTML = `<div class="card empty">Nenhuma análise registrada ainda.</div>`; return; }
+  list.innerHTML = all.slice(0,12).map(a=>`
+    <div class="card row" style="padding:12px 14px;">
+      <img src="${a.image}" style="width:42px;height:42px;border-radius:10px;object-fit:cover;">
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:13.5px;">${a.userName}</div>
+        <div class="eyebrow">${a.result.tipo} · ${new Date(a.timestamp).toLocaleDateString('pt-BR')}</div>
+      </div>
+      <span class="pill ${a.result.acneNivel!=='Baixo'?'pill-rose':''}">${a.result.acneNivel}</span>
+    </div>
+  `).join('');
+}
+
+/* ---- ADMIN: Users list ---- */
+SCREENS.adminUsers = function(){
+  const el = h(`
+    <div>
+      <div class="topbar"><h2 style="font-size:19px;">Usuários</h2></div>
+      <div class="screen" id="adminUsersWrap"><div class="empty">Carregando…</div></div>
+    </div>
+  `);
+  (async()=>{
+    const users = await getAllUsers();
+    const all = await getAllAnalyses();
+    const wrap = el.querySelector('#adminUsersWrap');
+    if(users.length===0){ wrap.innerHTML=`<div class="empty">Nenhum usuário cadastrado ainda.</div>`; return; }
+    wrap.innerHTML = users.map(u=>{
+      const count = all.filter(a=>a.userName===u.name).length;
+      return `
+      <div class="card row" style="margin-bottom:12px;padding:14px 16px;">
+        <div class="avatar">${u.name[0].toUpperCase()}</div>
+        <div style="flex:1;">
+          <div style="font-weight:600;font-size:14.5px;">${u.name}</div>
+          <div class="eyebrow">${count} análise(s)</div>
+        </div>
+      </div>`;
+    }).join('');
+  })();
+  return el;
+};
+
+/* ---- ADMIN: Settings/profile ---- */
+SCREENS.adminProfile = function(){
+  const el = h(`
+    <div>
+      <div class="topbar"><h2 style="font-size:19px;">Conta</h2></div>
+      <div class="screen">
+        <div class="card" style="text-align:center;">
+          <div class="avatar" style="width:64px;height:64px;font-size:24px;margin:0 auto;background:var(--navy-soft);color:var(--navy);">${ICONS.admin}</div>
+          <h3 style="margin-top:14px;font-size:20px;">${state.userName}</h3>
+          <div class="eyebrow" style="margin-top:4px;">Administrador</div>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:16px;line-height:1.6;">
+          O painel administrativo permite acompanhar o volume de análises e identificar usuários que podem precisar de encaminhamento prioritário a um dermatologista parceiro.
+        </p>
+        <button class="btn btn-outline" style="margin-top:14px;" onclick="logout()">Sair</button>
+      </div>
+    </div>
+  `);
+  return el;
+};
+
+/* ---------------- Bottom nav ---------------- */
+function withNav(screenEl, tabs, activeKey){
+  const wrapper = document.createElement('div');
+  wrapper.appendChild(screenEl);
+  const nav = h(`<div class="bottomnav">${tabs.map(t=>`
+    <button class="navbtn ${t.key===activeKey?'active':''}" onclick="goto('${t.screen}')">
+      ${ICONS[t.icon]}<span>${t.label}</span>
+    </button>`).join('')}</div>`);
+  wrapper.appendChild(nav);
+  return wrapper;
+}
+
+const originalGoto = goto;
+goto = function(screen){
+  state.screen = screen;
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  let content = SCREENS[screen] ? SCREENS[screen]() : SCREENS.splash();
+
+  const userTabs = [
+    {key:'home', label:'Início', icon:'home', screen:'userHome'},
+    {key:'history', label:'Histórico', icon:'history', screen:'userHistory'},
+    {key:'profile', label:'Perfil', icon:'profile', screen:'userProfile'},
+  ];
+  const adminTabs = [
+    {key:'home', label:'Painel', icon:'home', screen:'adminHome'},
+    {key:'users', label:'Usuários', icon:'users', screen:'adminUsers'},
+    {key:'profile', label:'Conta', icon:'profile', screen:'adminProfile'},
+  ];
+
+  if(['userHome','userHistory','userProfile'].includes(screen)){
+    const map = {userHome:'home', userHistory:'history', userProfile:'profile'};
+    content = withNav(content, userTabs, map[screen]);
+  } else if(['adminHome','adminUsers','adminProfile'].includes(screen)){
+    const map = {adminHome:'home', adminUsers:'users', adminProfile:'profile'};
+    content = withNav(content, adminTabs, map[screen]);
+  }
+  app.appendChild(content);
+  window.scrollTo(0,0);
+};
+
+goto('splash');
 </script>
 </body>
 </html>
