@@ -2,745 +2,935 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#232A2E">
-<title>Shinmatch beaty — Análise de Pele</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SkinMatch Beauty</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
 :root{
-  --bg: #FAF6F3;
-  --panel: #FFFFFF;
-  --ink: #232A2E;
-  --ink-soft: #5B6469;
-  --line: #E7DFD9;
-  --rose: #E0836F;
-  --rose-soft: #F4DCD4;
-  --sage: #8CA084;
-  --sage-soft: #E4EAE0;
-  --gold: #C9A24B;
-  --gold-soft: #F2E7CD;
-  --navy: #2B3A4A;
-  --navy-soft: #DDE3E8;
-  --radius: 18px;
-  --shadow: 0 8px 30px rgba(35,42,46,0.08);
+  --bg:#FBF6F4;
+  --surface:#FFFFFF;
+  --ink:#2A2029;
+  --ink-soft:#7A6A70;
+  --ink-faint:#B7A9AE;
+  --accent:#D6236F;
+  --accent-dark:#A9105A;
+  --accent-soft:#FCE6EF;
+  --accent-soft-2:#F8D2E3;
+  --line:#F1E3E8;
+  --oil:#3E8FD1;      --oil-bg:#E7F1FB;
+  --dry:#E0992B;      --dry-bg:#FBF0DD;
+  --spots:#A855C9;    --spots-bg:#F3E6FA;
+  --acne:#E0523E;     --acne-bg:#FBE7E3;
+  --sens:#3FA772;     --sens-bg:#E5F5EC;
+  --radius-lg:26px;
+  --radius-md:18px;
+  --radius-sm:12px;
+  --shadow:0 14px 34px -18px rgba(90,30,55,.35);
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;height:100%;}
+html,body{margin:0;padding:0;}
 body{
-  font-family:'Work Sans', sans-serif;
-  background:var(--bg);
+  background:#EFE6E2;
+  font-family:'Inter',system-ui,sans-serif;
   color:var(--ink);
-  overflow-x:hidden;
+  display:flex;
+  justify-content:center;
+  min-height:100vh;
 }
-#app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;background:var(--bg);padding-bottom:86px;}
-h1,h2,h3{font-family:'Fraunces', serif; margin:0; letter-spacing:-0.01em;}
-.mono{font-family:'IBM Plex Mono', monospace;}
-.eyebrow{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-soft);}
-.screen{padding:28px 22px 20px;}
-.btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  border:none;border-radius:100px;padding:16px 22px;font-family:'Work Sans';font-weight:600;font-size:15px;
-  cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;width:100%;
+h1,h2,h3,.display{font-family:'Plus Jakarta Sans',system-ui,sans-serif;}
+button{font-family:inherit;}
+#phone{
+  width:100%;
+  max-width:400px;
+  min-height:100vh;
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
 }
-.btn:active{transform:scale(0.97);}
-.btn-primary{background:var(--ink); color:var(--bg);}
-.btn-rose{background:var(--rose); color:#fff;}
-.btn-outline{background:transparent;border:1.5px solid var(--line); color:var(--ink);}
-.btn-ghost{background:transparent;color:var(--ink-soft);font-weight:500;}
-.card{background:var(--panel); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px;}
-.field{width:100%;padding:15px 16px;border-radius:12px;border:1.5px solid var(--line);font-family:'Work Sans';font-size:15px;background:#fff;margin-top:8px;}
-.field:focus{outline:none;border-color:var(--rose);}
-.stack{display:flex;flex-direction:column;gap:14px;}
-.row{display:flex;align-items:center;gap:12px;}
-.spacer{flex:1;}
-.pill{font-family:'IBM Plex Mono';font-size:11px;padding:5px 10px;border-radius:100px;background:var(--sage-soft);color:#4B5A44;font-weight:500;}
-.pill-alert{background:var(--gold-soft);color:#7A6120;}
-.pill-rose{background:var(--rose-soft); color:#93412E;}
-.divider{height:1px;background:var(--line);margin:18px 0;}
-.topbar{position:sticky;top:0;z-index:20;background:rgba(250,246,243,0.9);backdrop-filter:blur(8px);padding:18px 22px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);}
-.bottomnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--line);display:flex;padding:10px 10px calc(10px + env(safe-area-inset-bottom));z-index:30;}
-.navbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:var(--ink-soft);font-family:'IBM Plex Mono';font-size:10px;padding:6px 0;cursor:pointer;}
-.navbtn.active{color:var(--rose);}
-.navbtn svg{width:20px;height:20px;}
-.progress-ring{position:relative;width:220px;height:220px;margin:0 auto;}
-.fade-in{animation:fadeIn .4s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.scanwrap{position:relative;width:220px;height:220px;margin:24px auto;border-radius:50%;overflow:hidden;background:var(--navy);}
-.scanwrap img{width:100%;height:100%;object-fit:cover;display:block;}
-.scan-ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(224,131,111,0.6);animation:pulse 1.8s ease-out infinite;}
-.scan-ring.d2{animation-delay:.6s;}
-.scan-ring.d3{animation-delay:1.2s;}
-@keyframes pulse{0%{transform:scale(0.7);opacity:1;}100%{transform:scale(1.25);opacity:0;}}
-.sweep{position:absolute;inset:0;background:conic-gradient(from 0deg, transparent 0deg, rgba(224,131,111,0.35) 40deg, transparent 90deg);animation:spin 1.6s linear infinite;border-radius:50%;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.metric-bar{height:8px;border-radius:100px;background:var(--line);overflow:hidden;margin-top:8px;}
-.metric-fill{height:100%;border-radius:100px;transition:width .8s ease;}
-.upload-zone{border:1.5px dashed var(--line);border-radius:var(--radius);padding:40px 20px;text-align:center;background:#fff;}
-input[type=file]{display:none;}
-table{width:100%;border-collapse:collapse;font-size:13px;}
-th{text-align:left;font-family:'IBM Plex Mono';font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;padding:8px 6px;border-bottom:1px solid var(--line);}
-td{padding:10px 6px;border-bottom:1px solid var(--line);}
-.disclaimer{background:var(--gold-soft);border-radius:14px;padding:14px 16px;font-size:12.5px;color:#5B4A1C;line-height:1.5;}
-.avatar{width:38px;height:38px;border-radius:50%;background:var(--rose-soft);color:#93412E;display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-weight:600;font-size:15px;}
-.empty{text-align:center;padding:50px 20px;color:var(--ink-soft);}
-.link{color:var(--rose);text-decoration:none;font-weight:600;font-size:13px;}
-::selection{background:var(--rose-soft);}
+.screen{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  padding-bottom:90px;
+  animation:fadeIn .35s ease;
+}
+.screen.no-nav{padding-bottom:28px;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 20px 6px;
+}
+.topbar .brand{display:flex;align-items:center;gap:8px;}
+.topbar .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);}
+.topbar .brand span{font-family:'Plus Jakarta Sans';font-weight:800;font-size:15px;letter-spacing:.5px;}
+.topbar .brand small{display:block;font-size:8px;letter-spacing:2px;color:var(--ink-faint);font-weight:600;margin-top:1px;}
+.iconbtn{
+  width:38px;height:38px;border-radius:50%;background:var(--surface);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--ink);
+}
+.backrow{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 4px;}
+
+.content{flex:1;padding:0 20px;}
+
+.btn-primary{
+  width:100%;background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  color:#fff;border:none;padding:16px;border-radius:32px;font-weight:700;font-size:15px;
+  cursor:pointer;box-shadow:0 12px 22px -10px rgba(214,35,111,.55);
+  transition:transform .15s ease;
+}
+.btn-primary:active{transform:scale(.98);}
+.btn-primary:disabled{opacity:.45;box-shadow:none;cursor:not-allowed;}
+.btn-secondary{
+  width:100%;background:var(--surface);color:var(--accent-dark);border:1.5px solid var(--accent-soft-2);
+  padding:14px;border-radius:32px;font-weight:700;font-size:14px;cursor:pointer;
+}
+.btn-ghost{
+  background:none;border:none;color:var(--ink-soft);font-size:13px;font-weight:600;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px;
+}
+
+/* Progress dots (step indicator) */
+.steps{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 0 18px;}
+.steps .seg{height:3px;border-radius:3px;background:var(--line);flex:1;max-width:56px;transition:background .3s;}
+.steps .seg.done{background:var(--accent);}
+
+/* Home */
+.hero-eyebrow{color:var(--accent);font-weight:700;font-size:15px;margin:4px 0 0;}
+.hero-title{font-size:30px;line-height:1.15;font-weight:800;margin:2px 0 10px;}
+.hero-sub{font-size:14px;color:var(--ink-soft);line-height:1.55;margin:0 0 22px;}
+.hero-photo{
+  position:relative;border-radius:24px;overflow:hidden;height:220px;
+  background:linear-gradient(140deg,var(--accent-soft),#FDEDF3 60%, #F6E9DE);
+  display:flex;align-items:flex-end;justify-content:center;margin-bottom:18px;
+}
+.hero-photo svg{width:100%;height:100%;}
+.last-scan-card{
+  display:flex;align-items:center;gap:12px;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:16px;cursor:pointer;
+}
+.last-scan-ring{width:44px;height:44px;flex:none;}
+.last-scan-card .lbl{font-size:11px;color:var(--ink-soft);font-weight:600;}
+.last-scan-card .val{font-size:14px;font-weight:700;}
+
+/* Question chips */
+.q-title{font-size:22px;font-weight:800;margin:6px 0 4px;}
+.q-sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 20px;line-height:1.5;}
+.chip-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px;}
+.chip-grid.single{grid-template-columns:1fr;}
+.chip{
+  background:var(--surface);border:1.5px solid var(--line);border-radius:18px;
+  padding:16px 14px;cursor:pointer;transition:.15s ease;display:flex;flex-direction:column;gap:10px;
+}
+.chip.single-row{flex-direction:row;align-items:center;gap:12px;}
+.chip:active{transform:scale(.98);}
+.chip.selected{border-color:var(--accent);background:var(--accent-soft);}
+.chip .ic{width:30px;height:30px;}
+.chip .lbl{font-size:13.5px;font-weight:700;line-height:1.25;}
+.chip .desc{font-size:11.5px;color:var(--ink-soft);}
+
+/* Camera screen */
+.cam-title{font-size:21px;font-weight:800;text-align:center;margin:8px 0 2px;}
+.cam-sub{font-size:13px;color:var(--ink-soft);text-align:center;margin:0 0 18px;}
+.cam-frame{
+  position:relative;width:100%;aspect-ratio:3/3.6;border-radius:26px;overflow:hidden;
+  background:#EFE6E2;border:1px solid var(--line);margin-bottom:14px;
+}
+.cam-frame video, .cam-frame img{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);}
+.face-guide{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;
+}
+.face-guide svg{width:64%;opacity:.85;}
+.cam-fallback{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;padding:24px;text-align:center;background:var(--surface);
+}
+.cam-fallback p{font-size:12.5px;color:var(--ink-soft);margin:0;line-height:1.5;}
+.tip-row{display:flex;justify-content:space-between;margin-bottom:22px;}
+.tip{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10.5px;color:var(--ink-soft);font-weight:600;flex:1;text-align:center;}
+.tip .ic{width:22px;height:22px;color:var(--accent);}
+
+/* Analyzing */
+.ring-wrap{display:flex;justify-content:center;margin:18px 0 26px;position:relative;}
+.ring-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:34px;font-weight:800;font-family:'Plus Jakarta Sans';}
+.checklist{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:6px 16px;}
+.check-item{display:flex;align-items:center;justify-content:space-between;padding:11px 0;font-size:13.5px;font-weight:600;border-bottom:1px solid var(--line);}
+.check-item:last-child{border-bottom:none;}
+.check-item .mark{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none;transition:.25s;}
+.check-item.done .mark{background:var(--accent);border-color:var(--accent);}
+.check-item.done{color:var(--ink);}
+.check-item:not(.done){color:var(--ink-faint);}
+
+/* Results */
+.result-title{font-size:23px;font-weight:800;margin:8px 0 18px;}
+.result-title .spark{color:var(--accent);}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);padding:18px;margin-bottom:14px;}
+.card h3{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:0 0 10px;font-weight:700;}
+.profile-desc{font-size:14.5px;line-height:1.55;margin:0;font-weight:500;}
+.need-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);}
+.need-row:last-child{border-bottom:none;}
+.need-ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;}
+.need-name{font-size:14px;font-weight:700;margin:0;}
+.need-tag{font-size:11.5px;font-weight:600;margin:1px 0 0;}
+.need-pct{font-size:15px;font-weight:800;font-family:'Plus Jakarta Sans';}
+.metric-block{margin-bottom:18px;}
+.metric-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.metric-head .left{display:flex;align-items:center;gap:8px;}
+.metric-head .name{font-size:13.5px;font-weight:700;}
+.metric-head .pct{font-size:13.5px;font-weight:800;}
+.bar-track{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin-bottom:8px;}
+.bar-fill{height:100%;border-radius:8px;transition:width 1s cubic-bezier(.22,.9,.3,1);}
+.metric-tips{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px;}
+.metric-tips li{font-size:12px;color:var(--ink-soft);padding-left:14px;position:relative;line-height:1.45;}
+.metric-tips li:before{content:'';position:absolute;left:0;top:7px;width:4px;height:4px;border-radius:50%;background:var(--ink-faint);}
+
+/* Bottom nav */
+.bottomnav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:400px;
+  background:var(--surface);border-top:1px solid var(--line);
+  display:flex;justify-content:space-around;align-items:center;padding:10px 6px 18px;z-index:20;
+}
+.navitem{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--ink-faint);cursor:pointer;font-size:9.5px;font-weight:700;flex:1;}
+.navitem.active{color:var(--accent);}
+.navitem svg{width:21px;height:21px;}
+.navitem.scan-fab{position:relative;top:-16px;}
+.navitem.scan-fab .fabcircle{
+  width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px -8px rgba(214,35,111,.6);margin-bottom:2px;
+}
+.navitem.scan-fab .fabcircle svg{width:22px;height:22px;color:#fff;}
+.navitem.scan-fab.active{color:var(--accent);}
+
+/* Profile / history */
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px;color:var(--accent-dark);}
+.profile-head{display:flex;align-items:center;gap:14px;margin:6px 0 20px;}
+.profile-name{font-size:18px;font-weight:800;margin:0;}
+.profile-meta{font-size:12.5px;color:var(--ink-soft);margin:2px 0 0;}
+.history-item{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:10px;cursor:pointer;}
+.history-ring{width:38px;height:38px;flex:none;}
+.history-item .htitle{font-size:13.5px;font-weight:700;margin:0;}
+.history-item .hdate{font-size:11.5px;color:var(--ink-soft);margin:2px 0 0;}
+.history-item .hgo{margin-left:auto;color:var(--ink-faint);}
+.empty-state{text-align:center;padding:40px 20px;color:var(--ink-soft);}
+.empty-state svg{width:52px;height:52px;color:var(--ink-faint);margin-bottom:12px;}
+.empty-state p{font-size:13px;line-height:1.5;margin:0 0 18px;}
+
+/* Products */
+.product-card{display:flex;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px;margin-bottom:10px;align-items:center;}
+.product-thumb{width:52px;height:52px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;}
+.product-thumb svg{width:26px;height:26px;}
+.product-info{flex:1;min-width:0;}
+.product-name{font-size:13.5px;font-weight:700;margin:0 0 2px;}
+.product-tag{font-size:11px;color:var(--ink-soft);margin:0;}
+.product-price{font-size:13px;font-weight:800;color:var(--accent-dark);}
+.heart-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;}
+.heart-btn.active{background:var(--accent-soft);border-color:var(--accent-soft-2);}
+.heart-btn svg{width:16px;height:16px;}
+.section-label{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:700;margin:22px 0 12px;}
+.section-label:first-child{margin-top:6px;}
+
+/* onboarding name */
+.onboard-wrap{display:flex;flex-direction:column;justify-content:center;flex:1;padding:0 26px;}
+.onboard-wrap input{
+  width:100%;border:1.5px solid var(--line);border-radius:16px;padding:15px 16px;font-size:15px;
+  font-family:inherit;margin:22px 0 10px;background:var(--surface);color:var(--ink);
+}
+.onboard-wrap input:focus{outline:none;border-color:var(--accent);}
+.disclaimer{font-size:10.5px;color:var(--ink-faint);text-align:center;line-height:1.5;margin-top:14px;padding:0 6px;}
 </style>
 </head>
 <body>
-<div id="app"></div>
+<div id="phone"><div id="app"></div></div>
 
 <script>
-/* ---------------------------------------------------------
-   DermaScan — protótipo funcional
-   Análise de pele via câmera + heurística de processamento
-   de imagem. NÃO é dispositivo médico certificado — serve
-   como ferramenta de triagem/orientação, sempre reforçando
-   o encaminhamento a um dermatologista.
---------------------------------------------------------- */
-
-const state = {
-  screen: 'splash',
-  role: null,        // 'user' | 'admin'
-  userName: null,
-  navTab: 'home',
-  lastResult: null,
-  capturedImage: null,
-  loading: false,
+/* ---------------- ICONS ---------------- */
+const ic = {
+  droplet:c=>`<svg viewBox="0 0 24 24" fill="none" class="ic"><path d="M12 3s7 7.6 7 12.2A7 7 0 1 1 5 15.2C5 10.6 12 3 12 3Z" stroke="${c}" stroke-width="1.8" fill="${c}22"/></svg>`,
+  wave:c=>`<svg viewBox="0 0 24 24" fill="none" class="ic"><path d="M3 9c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke="${c}" stroke-width="1.8"/><path d="M3 15c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2" stroke="${c}" stroke-width="1.8" opacity=".55"/></svg>`,
+  leaf:c=>`<svg viewBox="0 0 24 24" fill="none" class="ic"><path d="M5 19c0-8 5-13 14-13 0 9-5 13-14 13Z" stroke="${c}" stroke-width="1.8" fill="${c}22"/><path d="M6 18c3-3 6-6 12-11" stroke="${c}" stroke-width="1.6"/></svg>`,
+  sun:c=>`<svg viewBox="0 0 24 24" fill="none" class="ic"><circle cx="12" cy="12" r="4" stroke="${c}" stroke-width="1.8" fill="${c}22"/><g stroke="${c}" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v2.4M12 18.6V21M3 12h2.4M18.6 12H21M5.6 5.6l1.7 1.7M16.7 16.7l1.7 1.7M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7"/></g></svg>`,
+  pore:c=>`<svg viewBox="0 0 24 24" fill="none" class="ic"><circle cx="7" cy="8" r="2" fill="${c}"/><circle cx="15" cy="7" r="1.6" fill="${c}" opacity=".75"/><circle cx="11" cy="13" r="2.2" fill="${c}" opacity=".9"/><circle cx="17" cy="15" r="1.8" fill="${c}" opacity=".65"/><circle cx="6" cy="16" r="1.5" fill="${c}" opacity=".55"/></svg>`,
+  flame:c=>`<svg viewBox="0 0 24 24" fill="none" class="ic"><path d="M12 2c1 3-3 4-3 7.5A3.5 3.5 0 0 0 12 13a3 3 0 0 0 3-3c1.5 1.5 2 3 2 4.6A5.6 5.6 0 0 1 12 20a6 6 0 0 1-6-6c0-4 3-5.5 3-8 0-1.5.7-3 3-4Z" stroke="${c}" stroke-width="1.6" fill="${c}22"/></svg>`,
+  alert:c=>`<svg viewBox="0 0 24 24" fill="none" class="ic"><path d="M12 3 2 20h20L12 3Z" stroke="${c}" stroke-width="1.8" fill="${c}18" stroke-linejoin="round"/><path d="M12 10v4" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.7" r="1" fill="${c}"/></svg>`,
+  home:(c,f)=>`<svg viewBox="0 0 24 24" fill="none"><path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1v-8.5Z" stroke="${c}" stroke-width="1.8" fill="${f||'none'}" stroke-linejoin="round"/></svg>`,
+  scan:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M4 8V5a1 1 0 0 1 1-1h3M20 8V5a1 1 0 0 1-1-1h-3M4 16v3a1 1 0 0 0 1 1h3M20 16v3a1 1 0 0 0-1 1h-3" stroke="${c}" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" stroke="${c}" stroke-width="1.8"/></svg>`,
+  bag:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M6 8h12l-1 12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 8Z" stroke="${c}" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="${c}" stroke-width="1.8"/></svg>`,
+  heart:(c,f)=>`<svg viewBox="0 0 24 24" fill="none"><path d="M12 20s-7.4-4.7-9.6-9A5 5 0 0 1 12 6.2 5 5 0 0 1 21.6 11c-2.2 4.3-9.6 9-9.6 9Z" stroke="${c}" stroke-width="1.8" fill="${f||'none'}"/></svg>`,
+  user:c=>`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="${c}" stroke-width="1.8"/><path d="M4.5 20c1.4-4 4.2-6 7.5-6s6.1 2 7.5 6" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  camera:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" stroke="${c}" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.4" stroke="${c}" stroke-width="1.8"/></svg>`,
+  bulb:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M9 18h6M10 21h4M8 14a4 4 0 1 1 8 0c0 1.7-1 2.3-1.6 3.2-.3.5-.4.8-.4 1.3H10c0-.5-.1-.8-.4-1.3C9 16.3 8 15.7 8 14Z" stroke="${c}" stroke-width="1.7" stroke-linejoin="round"/></svg>`,
+  ban:c=>`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="${c}" stroke-width="1.7"/><path d="M6.5 6.5l11 11" stroke="${c}" stroke-width="1.7"/></svg>`,
+  eye:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" stroke="${c}" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.6" stroke="${c}" stroke-width="1.7"/></svg>`,
+  check:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5 10 17 19 7" stroke="${c}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  chev:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  back:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  spark:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3Z" fill="${c}"/></svg>`,
+  jar:c=>`<svg viewBox="0 0 24 24" fill="none"><rect x="6" y="9" width="12" height="11" rx="2" stroke="${c}" stroke-width="1.7"/><rect x="7.5" y="5" width="9" height="4" rx="1.5" stroke="${c}" stroke-width="1.7"/></svg>`,
+  bottle:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M10 3h4v3.2l1.6 2.2c.3.4.4.9.4 1.4V19a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9.8c0-.5.1-1 .4-1.4L10 6.2V3Z" stroke="${c}" stroke-width="1.7" stroke-linejoin="round"/></svg>`,
+  tube:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M8 3h8l1 4-3 4v9a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9L7 7l1-4Z" stroke="${c}" stroke-width="1.7" stroke-linejoin="round"/></svg>`,
+  shield:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3Z" stroke="${c}" stroke-width="1.7" stroke-linejoin="round"/></svg>`,
+  sparkles:c=>`<svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3Z" fill="${c}"/></svg>`,
 };
 
-const ICONS = {
-  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>`,
-  history: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>`,
-  profile: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>`,
-  admin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="4" width="17" height="13" rx="2"/><path d="M8 20h8M12 17v3"/></svg>`,
-  users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M2.5 19a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15.8 12.2a5 5 0 0 1 5.7 5.6"/></svg>`,
+/* ---------------- DATA ---------------- */
+const METRICS = [
+  {key:'oleosidade', label:'Oleosidade', color:'var(--oil)', hex:'#3E8FD1', bg:'var(--oil-bg)', icon:'droplet'},
+  {key:'ressecamento', label:'Ressecamento', color:'var(--dry)', hex:'#E0992B', bg:'var(--dry-bg)', icon:'wave'},
+  {key:'manchas', label:'Manchas e sardas', color:'var(--spots)', hex:'#A855C9', bg:'var(--spots-bg)', icon:'sun'},
+  {key:'acne', label:'Sinais de acne', color:'var(--acne)', hex:'#E0523E', bg:'var(--acne-bg)', icon:'flame'},
+  {key:'sensibilidade', label:'Sensibilidade', color:'var(--sens)', hex:'#3FA772', bg:'var(--sens-bg)', icon:'leaf'},
+];
+const TREATMENTS = {
+  oleosidade:['Limpador de gel com ácido salicílico 2x ao dia','Hidratante oil-free em gel','Papel matificante ao longo do dia'],
+  ressecamento:['Limpeza suave sem sulfatos','Hidratante rico em ceramidas e ácido hialurônico','Sérum umectante antes do hidratante'],
+  manchas:['Protetor solar FPS 50+ reaplicado a cada 3h','Sérum com vitamina C pela manhã','Ativos clareadores como niacinamida à noite'],
+  acne:['Ácido salicílico ou benzoíla em pontos ativos','Evitar espremer e usar produtos não comedogênicos','Considerar avaliação dermatológica se persistir'],
+  sensibilidade:['Fórmulas fragrance-free e hipoalergênicas','Introduzir ativos novos aos poucos, um por vez','Protetor solar físico (óxido de zinco)'],
+};
+const SYMPTOM_OPTS = [
+  {id:'oleosidade', label:'Oleosidade', icon:'droplet', metric:'oleosidade', boost:28},
+  {id:'ressecamento', label:'Ressecamento', icon:'wave', metric:'ressecamento', boost:28},
+  {id:'sensibilidade', label:'Sensibilidade', icon:'leaf', metric:'sensibilidade', boost:28},
+  {id:'manchas', label:'Manchas', icon:'sun', metric:'manchas', boost:28},
+  {id:'poros', label:'Poros dilatados', icon:'pore', metric:'oleosidade', boost:14},
+  {id:'textura', label:'Textura irregular', icon:'wave', metric:'ressecamento', boost:10},
+  {id:'acne', label:'Sinais de acne', icon:'flame', metric:'acne', boost:32},
+  {id:'vermelhidao', label:'Vermelhidão', icon:'alert', metric:'sensibilidade', boost:20},
+];
+const SKINTYPE_OPTS = [
+  {id:'oleosa', label:'Oleosa', desc:'Brilho ao longo do dia'},
+  {id:'seca', label:'Seca', desc:'Sensação de repuxamento'},
+  {id:'mista', label:'Mista', desc:'Zona T oleosa, bochechas secas'},
+  {id:'normal', label:'Normal', desc:'Equilibrada na maior parte do tempo'},
+  {id:'sensivel', label:'Sensível', desc:'Reage fácil a produtos novos'},
+];
+const CONCERN_OPTS = [
+  {id:'acne_ativa', label:'Acne ativa', metric:'acne', boost:30},
+  {id:'cravos', label:'Cravos', metric:'acne', boost:14},
+  {id:'poros', label:'Poros dilatados', metric:'oleosidade', boost:10},
+  {id:'linhas', label:'Linhas finas', metric:'ressecamento', boost:14},
+  {id:'olheiras', label:'Olheiras', metric:null, boost:0},
+  {id:'nenhuma', label:'Nenhuma no momento', metric:null, boost:0},
+];
+const ROUTINE_OPTS = [
+  {id:'protetor', label:'Uso protetor solar todo dia'},
+  {id:'ativos', label:'Uso ácidos ou retinol'},
+  {id:'nenhuma', label:'Ainda não tenho rotina'},
+];
+const PRODUCTS = [
+  {id:'p1', name:'Gel de Limpeza Purificante', tag:'oleosidade', price:'R$ 59,90', icon:'bottle', bg:'var(--oil-bg)', color:'#3E8FD1'},
+  {id:'p2', name:'Sérum Vitamina C 10%', tag:'manchas', price:'R$ 89,90', icon:'tube', bg:'var(--spots-bg)', color:'#A855C9'},
+  {id:'p3', name:'Hidratante Ceramidas Barreira', tag:'ressecamento', price:'R$ 74,90', icon:'jar', bg:'var(--dry-bg)', color:'#E0992B'},
+  {id:'p4', name:'Protetor Solar FPS 60 Toque Seco', tag:'manchas', price:'R$ 68,90', icon:'shield', bg:'var(--spots-bg)', color:'#A855C9'},
+  {id:'p5', name:'Sérum Niacinamida 5%', tag:'oleosidade', price:'R$ 54,90', icon:'tube', bg:'var(--oil-bg)', color:'#3E8FD1'},
+  {id:'p6', name:'Gel Calmante Centella Asiática', tag:'sensibilidade', price:'R$ 62,90', icon:'jar', bg:'var(--sens-bg)', color:'#3FA772'},
+  {id:'p7', name:'Tratamento Localizado Anti-acne', tag:'acne', price:'R$ 47,90', icon:'bottle', bg:'var(--acne-bg)', color:'#E0523E'},
+];
+
+/* ---------------- STATE ---------------- */
+let state = {
+  view:'loading',
+  profile:null,
+  history:[],
+  favorites:[],
+  scan:{step:1, symptoms:[], skinType:null, concerns:[], routine:null, photo:null},
+  currentResult:null,
+  cameraError:null,
+  _stream:null,
 };
 
+function esc(s){return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ---------------- STORAGE ---------------- */
+async function loadAll(){
+  try{ const r = await window.storage.get('profile'); state.profile = r ? JSON.parse(r.value) : null; }catch(e){ state.profile = null; }
+  try{ const r = await window.storage.get('scan-history'); state.history = r ? JSON.parse(r.value) : []; }catch(e){ state.history = []; }
+  try{ const r = await window.storage.get('favorites'); state.favorites = r ? JSON.parse(r.value) : []; }catch(e){ state.favorites = []; }
+  state.view = state.profile ? 'home' : 'onboard';
+  render();
+}
+async function saveProfile(){ try{ await window.storage.set('profile', JSON.stringify(state.profile)); }catch(e){} }
+async function saveHistory(){ try{ await window.storage.set('scan-history', JSON.stringify(state.history)); }catch(e){} }
+async function saveFavorites(){ try{ await window.storage.set('favorites', JSON.stringify(state.favorites)); }catch(e){} }
+
+/* ---------------- NAV ---------------- */
+function stopCamera(){
+  if(state._stream){ state._stream.getTracks().forEach(t=>t.stop()); state._stream=null; }
+}
+function goTo(view, opts){
+  if(state.view==='camera' && view!=='camera') stopCamera();
+  state.view = view;
+  if(opts) Object.assign(state, opts);
+  render();
+}
+function startScan(){
+  state.scan = {step:1, symptoms:[], skinType:null, concerns:[], routine:null, photo:null};
+  state.cameraError = null;
+  goTo('questions');
+}
+
+/* ---------------- RENDER SHELL ---------------- */
 function render(){
   const app = document.getElementById('app');
-  app.innerHTML = '';
-  const el = SCREENS[state.screen] ? SCREENS[state.screen]() : SCREENS.splash();
-  app.appendChild(el);
-}
-
-function h(html){
-  const t = document.createElement('template');
-  t.innerHTML = html.trim();
-  return t.content.firstChild;
-}
-
-function goto(screen){ state.screen = screen; render(); window.scrollTo(0,0); }
-
-/* ---------------- Storage helpers ---------------- */
-async function saveAnalysis(record){
-  try{
-    await window.storage.set('analyses:'+record.id, JSON.stringify(record), true);
-    const idx = await safeGet('index:analyses', true);
-    const list = idx ? JSON.parse(idx.value) : [];
-    list.unshift(record.id);
-    await window.storage.set('index:analyses', JSON.stringify(list), true);
-  }catch(e){ console.error('save error', e); }
-}
-async function safeGet(key, shared){
-  try{ return await window.storage.get(key, shared); }catch(e){ return null; }
-}
-async function getAllAnalyses(){
-  const idx = await safeGet('index:analyses', true);
-  if(!idx) return [];
-  const ids = JSON.parse(idx.value);
-  const results = [];
-  for(const id of ids){
-    const r = await safeGet('analyses:'+id, true);
-    if(r) results.push(JSON.parse(r.value));
+  let html = '';
+  switch(state.view){
+    case 'loading': html = renderLoading(); break;
+    case 'onboard': html = renderOnboard(); break;
+    case 'home': html = renderHome(); break;
+    case 'questions': html = renderQuestions(); break;
+    case 'camera': html = renderCamera(); break;
+    case 'analyzing': html = renderAnalyzing(); break;
+    case 'results': html = renderResults(state.currentResult); break;
+    case 'products': html = renderProducts(); break;
+    case 'favorites': html = renderFavorites(); break;
+    case 'profile': html = renderProfile(); break;
+    default: html = renderHome();
   }
-  return results;
+  app.innerHTML = html;
+  afterRender();
 }
-async function registerUser(name){
-  try{
-    const key = 'users:'+name.toLowerCase();
-    const existing = await safeGet(key, true);
-    if(!existing){
-      await window.storage.set(key, JSON.stringify({name, createdAt:Date.now()}), true);
-      const idx = await safeGet('index:users', true);
-      const list = idx ? JSON.parse(idx.value) : [];
-      if(!list.includes(name.toLowerCase())){ list.push(name.toLowerCase()); }
-      await window.storage.set('index:users', JSON.stringify(list), true);
+
+const TABS = ['home','questions','products','favorites','profile'];
+function bottomNav(active){
+  const items = [
+    {id:'home', label:'Início', icon:'home'},
+    {id:'scan', label:'Skin Scan', icon:'scan', fab:true},
+    {id:'products', label:'Produtos', icon:'bag'},
+    {id:'favorites', label:'Favoritos', icon:'heart'},
+    {id:'profile', label:'Perfil', icon:'user'},
+  ];
+  return `<div class="bottomnav">${items.map(it=>{
+    if(it.fab){
+      return `<div class="navitem scan-fab ${active==='questions'||active==='camera'||active==='analyzing'?'active':''}" onclick="startScan()">
+        <div class="fabcircle">${ic.scan('#fff')}</div>
+      </div>`;
     }
-  }catch(e){ console.error(e); }
-}
-async function getAllUsers(){
-  const idx = await safeGet('index:users', true);
-  if(!idx) return [];
-  const keys = JSON.parse(idx.value);
-  const out = [];
-  for(const k of keys){
-    const r = await safeGet('users:'+k, true);
-    if(r) out.push(JSON.parse(r.value));
-  }
-  return out;
+    const isActive = active===it.id;
+    return `<div class="navitem ${isActive?'active':''}" onclick="goTo('${it.id}')">
+      ${ic[it.icon](isActive?'#D6236F':'#B7A9AE', isActive && it.icon==='heart' ? '#D6236F':'none')}
+      <span>${it.label}</span>
+    </div>`;
+  }).join('')}</div>`;
 }
 
-/* ---------------- Image analysis (heuristic) ---------------- */
-function analyzeImageData(imgEl){
-  const canvas = document.createElement('canvas');
-  const size = 240;
-  canvas.width = size; canvas.height = size;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(imgEl, 0, 0, size, size);
-  const data = ctx.getImageData(0,0,size,size).data;
-
-  const cols=24, rows=24;
-  const cw = Math.floor(size/cols), ch = Math.floor(size/rows);
-  let oily=0, dry=0, acne=0, sarda=0, total=0;
-  let brightnessSum=0;
-
-  for(let cy=0; cy<rows; cy++){
-    for(let cx=0; cx<cols; cx++){
-      let rs=0,gs=0,bs=0,n=0;
-      let vals=[];
-      for(let y=0;y<ch;y++){
-        for(let x=0;x<cw;x++){
-          const px = ((cy*ch+y)*size + (cx*cw+x))*4;
-          if(px+2 >= data.length) continue;
-          const r=data[px], g=data[px+1], b=data[px+2];
-          rs+=r; gs+=g; bs+=b; n++;
-          vals.push((r+g+b)/3);
-        }
-      }
-      if(n===0) continue;
-      const r=rs/n, g=gs/n, b=bs/n;
-      const brightness = (r+g+b)/3/255;
-      brightnessSum += brightness;
-      const mean = vals.reduce((a,c)=>a+c,0)/vals.length;
-      const variance = vals.reduce((a,c)=>a+(c-mean)*(c-mean),0)/vals.length;
-      const max = Math.max(r,g,b), min = Math.min(r,g,b);
-      const sat = max===0 ? 0 : (max-min)/max;
-
-      total++;
-      // shine / oleosidade: muito claro, baixa saturação, baixa variância local
-      if(brightness>0.72 && sat<0.28 && variance<180){ oily++; continue; }
-      // acne: predominância avermelhada, saturação moderada-alta
-      if(r-g>18 && r-b>22 && sat>0.22 && brightness<0.78 && brightness>0.28){ acne++; continue; }
-      // sardas/manchas: tom castanho, mais escuro que a média local, saturação moderada
-      if(r>g && g>=b && (r-b)>10 && (r-b)<40 && brightness<0.62 && brightness>0.25 && variance<260){ sarda++; continue; }
-      // ressecamento: variância local alta (textura irregular), brilho médio-baixo
-      if(variance>320 && brightness<0.68){ dry++; continue; }
-    }
-  }
-
-  const pct = (n)=> total? Math.round((n/total)*100) : 0;
-  const oleosidade = pct(oily);
-  const ressecamento = pct(dry);
-  const acnePct = pct(acne);
-  const sardaPct = pct(sarda);
-  const avgBrightness = Math.round((brightnessSum/total)*100);
-
-  let tipo = 'Normal / Equilibrada';
-  if(oleosidade>=22 && ressecamento>=14) tipo='Mista';
-  else if(oleosidade>=22) tipo='Oleosa';
-  else if(ressecamento>=18) tipo='Seca';
-
-  let acneNivel = 'Baixo';
-  if(acnePct>=18) acneNivel='Alto';
-  else if(acnePct>=8) acneNivel='Moderado';
-
-  let sardaNivel = 'Baixo';
-  if(sardaPct>=16) sardaNivel='Alto';
-  else if(sardaPct>=7) sardaNivel='Moderado';
-
-  return { oleosidade, ressecamento, acnePct, acneNivel, sardaPct, sardaNivel, tipo, avgBrightness };
+function topBar(showCart){
+  return `<div class="topbar">
+    <div class="brand"><span class="dot"></span><div><span>SKINMATCH</span><small>BEAUTY</small></div></div>
+    <div class="iconbtn">${ic.bag('#2A2029')}</div>
+  </div>`;
+}
+function backBar(onBack, title){
+  return `<div class="backrow">
+    <div class="iconbtn" onclick="${onBack}">${ic.back('#2A2029')}</div>
+    <div style="width:38px"></div>
+  </div>`;
 }
 
-function treatmentFor(result){
-  const tips = [];
-  if(result.tipo==='Oleosa'){
-    tips.push('Limpador facial em gel com pH balanceado, 2x ao dia.');
-    tips.push('Hidratante oil-free ou em gel, não comedogênico.');
-    tips.push('Ativos como niacinamida ou ácido salicílico em baixa concentração podem ajudar no controle de oleosidade.');
-  } else if(result.tipo==='Seca'){
-    tips.push('Limpador cremoso, sem sulfatos agressivos.');
-    tips.push('Hidratante rico em ceramidas e ácido hialurônico, 2x ao dia.');
-    tips.push('Evitar esfoliações físicas frequentes; preferir esfoliação química suave.');
-  } else if(result.tipo==='Mista'){
-    tips.push('Rotina diferenciada por região do rosto (zona T x bochechas).');
-    tips.push('Hidratante leve em gel-creme.');
-  } else {
-    tips.push('Rotina de manutenção: limpeza suave + hidratação leve.');
-  }
-  if(result.acneNivel!=='Baixo'){
-    tips.push('Evitar espremer lesões; considerar ativos como peróxido de benzoíla ou adapaleno, sob orientação médica.');
-  }
-  if(result.sardaNivel!=='Baixo'){
-    tips.push('Uso diário de protetor solar FPS 50+ é essencial para não escurecer as manchas.');
-    tips.push('Ativos clareadores (vitamina C, ácido tranexâmico) podem ser indicados por um dermatologista.');
-  }
-  tips.push('Protetor solar diário, independente do tipo de pele.');
-  return tips;
-}
-
-/* ---------------- Screens ---------------- */
-const SCREENS = {};
-
-SCREENS.splash = function(){
-  const el = h(`
-    <div class="screen fade-in" style="display:flex;flex-direction:column;justify-content:center;min-height:100vh;text-align:center;">
-      <div style="width:96px;height:96px;border-radius:50%;background:var(--navy);margin:0 auto 22px;position:relative;overflow:hidden;">
-        <div class="sweep" style="border-radius:50%;"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#F4DCD4" stroke-width="1.6"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg>
-        </div>
-      </div>
-      <div class="eyebrow" style="margin-bottom:6px;">Triagem dermatológica assistida</div>
-      <h1 style="font-size:34px;">Skinmatch beauty</h1>
-      <p style="color:var(--ink-soft);margin-top:10px;font-size:14.5px;line-height:1.55;padding:0 8px;">
-        Aponte a câmera, entenda sua pele e receba orientações — sempre com o dermatologista no centro do cuidado.
-      </p>
-      <div style="margin-top:36px;" class="stack">
-        <button class="btn btn-primary" onclick="chooseRole('user')">Entrar como Usuário</button>
-        <button class="btn btn-outline" onclick="chooseRole('admin')">Entrar como Administrador</button>
-      </div>
+/* ---------------- LOADING ---------------- */
+function renderLoading(){
+  return `<div class="screen no-nav" style="align-items:center;justify-content:center;">
+    <div class="brand" style="flex-direction:column;text-align:center;gap:6px;">
+      <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:20px;letter-spacing:.5px;">SKINMATCH</span>
+      <small style="font-size:9px;letter-spacing:3px;color:var(--ink-faint);font-weight:700;">BEAUTY</small>
     </div>
-  `);
-  return el;
-};
+  </div>`;
+}
 
-window.chooseRole = function(role){
-  state.role = role;
-  goto(role==='admin' ? 'adminLogin' : 'userLogin');
-};
-
-SCREENS.userLogin = function(){
-  const el = h(`
-    <div class="screen fade-in" style="padding-top:60px;">
-      <div class="eyebrow">Perfil de usuário</div>
-      <h2 style="font-size:26px;margin-top:6px;">Como podemos te chamar?</h2>
-      <p style="color:var(--ink-soft);font-size:13.5px;margin-top:8px;">Seu nome identifica seu histórico de análises no app.</p>
-      <input id="nameInput" class="field" placeholder="Seu nome" style="margin-top:22px;">
-      <button class="btn btn-rose" style="margin-top:16px;" onclick="submitUserLogin()">Continuar</button>
-      <button class="btn btn-ghost" onclick="goto('splash')">Voltar</button>
+/* ---------------- ONBOARD ---------------- */
+function renderOnboard(){
+  return `<div class="screen no-nav">
+    <div class="onboard-wrap">
+      <div style="text-align:center;">
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:var(--accent-soft);margin-bottom:6px;">${ic.sparkles('#D6236F')}</div>
+      </div>
+      <h1 style="font-size:24px;font-weight:800;text-align:center;margin:14px 0 6px;">Bem-vinda ao SkinMatch</h1>
+      <p style="font-size:13.5px;color:var(--ink-soft);text-align:center;line-height:1.55;margin:0;">Como podemos te chamar?</p>
+      <input id="nameInput" type="text" placeholder="Seu nome" maxlength="40" />
+      <button class="btn-primary" onclick="submitOnboard()">Continuar</button>
+      <p class="disclaimer">O SkinMatch oferece uma análise educativa de pele e não substitui a avaliação de um dermatologista.</p>
     </div>
-  `);
-  return el;
-};
-window.submitUserLogin = async function(){
+  </div>`;
+}
+function submitOnboard(){
   const val = document.getElementById('nameInput').value.trim();
-  if(!val){ shake('nameInput'); return; }
-  state.userName = val;
-  await registerUser(val);
-  goto('userHome');
-};
-
-SCREENS.adminLogin = function(){
-  const el = h(`
-    <div class="screen fade-in" style="padding-top:60px;">
-      <div class="eyebrow">Perfil administrador</div>
-      <h2 style="font-size:26px;margin-top:6px;">Acesso restrito</h2>
-      <p style="color:var(--ink-soft);font-size:13.5px;margin-top:8px;">Painel de acompanhamento das análises realizadas na clínica.</p>
-      <input id="adminUser" class="field" placeholder="Usuário administrador" style="margin-top:22px;">
-      <input id="adminPass" type="password" class="field" placeholder="Senha (demo: admin123)">
-      <button class="btn btn-primary" style="margin-top:16px;" onclick="submitAdminLogin()">Entrar</button>
-      <button class="btn btn-ghost" onclick="goto('splash')">Voltar</button>
-    </div>
-  `);
-  return el;
-};
-window.submitAdminLogin = function(){
-  const pass = document.getElementById('adminPass').value;
-  const user = document.getElementById('adminUser').value.trim() || 'Administrador';
-  if(pass !== 'admin123'){ shake('adminPass'); return; }
-  state.userName = user;
-  goto('adminHome');
-};
-
-function shake(id){
-  const elm = document.getElementById(id);
-  elm.style.borderColor = '#C0453A';
-  elm.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:280});
-}
-
-/* ---- USER: Home / Capture ---- */
-SCREENS.userHome = function(){
-  const el = h(`
-    <div>
-      <div class="topbar">
-        <div class="avatar">${(state.userName||'?')[0].toUpperCase()}</div>
-        <div>
-          <div class="eyebrow">Olá,</div>
-          <div style="font-family:'Fraunces';font-weight:600;font-size:16px;">${state.userName}</div>
-        </div>
-      </div>
-      <div class="screen">
-        <div class="card" style="background:linear-gradient(135deg,var(--navy),#3A4C5F);color:#fff;">
-          <div class="eyebrow" style="color:#B9C6D1;">Nova análise</div>
-          <h2 style="color:#fff;font-size:22px;margin-top:6px;">Vamos escanear sua pele</h2>
-          <p style="color:#D7DFE5;font-size:13px;margin-top:8px;line-height:1.5;">
-            Use boa iluminação natural, rosto limpo e sem maquiagem para um resultado mais fiel.
-          </p>
-          <div class="row" style="margin-top:18px;gap:10px;">
-            <button class="btn btn-rose" onclick="document.getElementById('cameraInput').click()">📷 Usar câmera</button>
-          </div>
-          <input type="file" id="cameraInput" accept="image/*" capture="user" onchange="handleImageSelected(event)">
-        </div>
-
-        <div class="divider"></div>
-        <div class="eyebrow">Últimas análises</div>
-        <div id="recentList" style="margin-top:12px;" class="stack">Carregando…</div>
-      </div>
-    </div>
-  `);
-  loadRecentForUser(el);
-  return el;
-};
-
-async function loadRecentForUser(el){
-  const all = await getAllAnalyses();
-  const mine = all.filter(a=>a.userName===state.userName).slice(0,3);
-  const container = el.querySelector('#recentList');
-  if(!container) return;
-  if(mine.length===0){
-    container.innerHTML = `<div class="card empty" style="padding:26px;">Nenhuma análise ainda. Faça a primeira acima ↑</div>`;
+  if(!val){
+    document.getElementById('nameInput').style.borderColor = '#E0523E';
     return;
   }
-  container.innerHTML = mine.map(a=>`
-    <div class="card row" style="padding:14px 16px;">
-      <img src="${a.image}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">
-      <div style="flex:1;">
-        <div style="font-weight:600;font-size:14px;">${a.result.tipo}</div>
-        <div class="eyebrow">${new Date(a.timestamp).toLocaleDateString('pt-BR')}</div>
-      </div>
-      <span class="pill">${a.result.acneNivel!=='Baixo' ? 'Acne '+a.result.acneNivel : 'Estável'}</span>
-    </div>
-  `).join('');
+  state.profile = {name:val, createdAt:Date.now()};
+  saveProfile();
+  goTo('home');
 }
 
-window.handleImageSelected = function(evt){
+/* ---------------- HOME ---------------- */
+function renderHome(){
+  const last = state.history[state.history.length-1];
+  return `<div class="screen">
+    ${topBar()}
+    <div class="content">
+      <p class="hero-eyebrow">Olá, ${esc(state.profile.name.split(' ')[0])} 👋</p>
+      <h1 class="hero-title">Sua pele é única.<br><span style="color:var(--accent)">Seu skincare também.</span></h1>
+      <p class="hero-sub">Descubra as necessidades da sua pele e encontre uma rotina personalizada para você.</p>
+      <div class="hero-photo">${heroSvg()}</div>
+      ${last ? `<div class="last-scan-card" onclick='viewHistoryEntry(${last.id})'>
+        <div class="last-scan-ring">${miniRing(last.overallScore, '#D6236F')}</div>
+        <div>
+          <p class="lbl">Último resultado · ${formatDate(last.date)}</p>
+          <p class="val">${esc(last.skinTypeLabel)}</p>
+        </div>
+        <div style="margin-left:auto;color:var(--ink-faint)">${ic.chev('#B7A9AE')}</div>
+      </div>` : ''}
+      <button class="btn-primary" onclick="startScan()">FAZER MEU SKIN SCAN</button>
+    </div>
+    ${bottomNav('home')}
+  </div>`;
+}
+function heroSvg(){
+  return `<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="160" cy="150" r="130" fill="#F6DCE7"/>
+    <circle cx="110" cy="120" r="34" fill="#F3C8DA"/>
+    <circle cx="230" cy="150" r="26" fill="#F3D9C4"/>
+    <path d="M60 210c20-40 60-60 100-60s80 20 100 60" stroke="#D6236F" stroke-width="2" opacity=".25" fill="none"/>
+  </svg>`;
+}
+function miniRing(pct,color){
+  const r=17,c=2*Math.PI*r, off=c-(c*pct/100);
+  return `<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="${r}" stroke="#F1E3E8" stroke-width="4" fill="none"/><circle cx="20" cy="20" r="${r}" stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 20 20)"/></svg>`;
+}
+function formatDate(ts){
+  const d = new Date(ts);
+  return d.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit', year:'numeric'});
+}
+
+/* ---------------- QUESTIONS (4 steps) ---------------- */
+function stepMeta(step){
+  if(step===1) return {title:'Como está sua pele hoje?', sub:'Selecione todos os sinais que se aplicam.'};
+  if(step===2) return {title:'Qual é o seu tipo de pele?', sub:'Escolha a opção que mais combina com você.'};
+  if(step===3) return {title:'Alguma dessas preocupações?', sub:'Selecione todas que se aplicam.'};
+  return {title:'Sua rotina atual', sub:'Isso ajuda a personalizar as recomendações.'};
+}
+function renderQuestions(){
+  const {step} = state.scan;
+  const meta = stepMeta(step);
+  let body = '';
+  if(step===1){
+    body = `<div class="chip-grid">${SYMPTOM_OPTS.map(o=>{
+      const sel = state.scan.symptoms.includes(o.id);
+      return `<div class="chip ${sel?'selected':''}" onclick="toggleSymptom('${o.id}')">
+        ${ic[o.icon](sel?'#D6236F':'#7A6A70')}
+        <span class="lbl">${o.label}</span>
+      </div>`;
+    }).join('')}</div>`;
+  } else if(step===2){
+    body = `<div class="chip-grid single">${SKINTYPE_OPTS.map(o=>{
+      const sel = state.scan.skinType===o.id;
+      return `<div class="chip single-row ${sel?'selected':''}" onclick="pickSkinType('${o.id}')">
+        <div style="width:34px;height:34px;border-radius:10px;background:${sel?'var(--accent-soft-2)':'var(--bg)'};display:flex;align-items:center;justify-content:center;flex:none;">${ic.droplet(sel?'#D6236F':'#7A6A70')}</div>
+        <div><p class="lbl" style="margin:0">${o.label}</p><p class="desc" style="margin:2px 0 0">${o.desc}</p></div>
+      </div>`;
+    }).join('')}</div>`;
+  } else if(step===3){
+    body = `<div class="chip-grid single">${CONCERN_OPTS.map(o=>{
+      const sel = state.scan.concerns.includes(o.id);
+      return `<div class="chip single-row ${sel?'selected':''}" onclick="toggleConcern('${o.id}')">
+        <div style="width:22px;height:22px;border-radius:50%;border:1.5px solid ${sel?'var(--accent)':'var(--line)'};background:${sel?'var(--accent)':'transparent'};display:flex;align-items:center;justify-content:center;flex:none;">${sel?ic.check('#fff'):''}</div>
+        <span class="lbl" style="font-size:13.5px">${o.label}</span>
+      </div>`;
+    }).join('')}</div>`;
+  } else {
+    body = `<div class="chip-grid single">${ROUTINE_OPTS.map(o=>{
+      const sel = state.scan.routine===o.id;
+      return `<div class="chip single-row ${sel?'selected':''}" onclick="pickRoutine('${o.id}')">
+        <div style="width:22px;height:22px;border-radius:50%;border:1.5px solid ${sel?'var(--accent)':'var(--line)'};background:${sel?'var(--accent)':'transparent'};display:flex;align-items:center;justify-content:center;flex:none;">${sel?ic.check('#fff'):''}</div>
+        <span class="lbl" style="font-size:13.5px">${o.label}</span>
+      </div>`;
+    }).join('')}</div>`;
+  }
+  const canContinue = step===1 ? true : step===2 ? !!state.scan.skinType : step===3 ? true : !!state.scan.routine;
+  return `<div class="screen no-nav">
+    ${backBar(step===1?"goTo('home')":"prevStep()")}
+    <div class="content">
+      <div class="steps">${[1,2,3,4].map(s=>`<div class="seg ${s<=step?'done':''}"></div>`).join('')}</div>
+      <h2 class="q-title">${meta.title}</h2>
+      <p class="q-sub">${meta.sub}</p>
+      ${body}
+      <button class="btn-primary" ${canContinue?'':'disabled'} onclick="nextStep()">${step<4?'CONTINUAR':'IR PARA CÂMERA'}</button>
+    </div>
+  </div>`;
+}
+function toggleSymptom(id){
+  const s = state.scan.symptoms;
+  const i = s.indexOf(id);
+  if(i>-1) s.splice(i,1); else s.push(id);
+  render();
+}
+function toggleConcern(id){
+  const opt = CONCERN_OPTS.find(o=>o.id===id);
+  let c = state.scan.concerns;
+  if(id==='nenhuma'){ state.scan.concerns = c.includes('nenhuma') ? [] : ['nenhuma']; }
+  else{
+    c = c.filter(x=>x!=='nenhuma');
+    const i = c.indexOf(id);
+    if(i>-1) c.splice(i,1); else c.push(id);
+    state.scan.concerns = c;
+  }
+  render();
+}
+function pickSkinType(id){ state.scan.skinType = id; render(); }
+function pickRoutine(id){ state.scan.routine = id; render(); }
+function nextStep(){
+  if(state.scan.step<4){ state.scan.step++; render(); }
+  else { state.cameraError=null; goTo('camera'); }
+}
+function prevStep(){ state.scan.step--; render(); }
+
+/* ---------------- CAMERA ---------------- */
+function renderCamera(){
+  return `<div class="screen no-nav">
+    ${backBar("goTo('questions')")}
+    <div class="content">
+      <h2 class="cam-title">Posicione seu rosto</h2>
+      <p class="cam-sub">Centralize seu rosto na área indicada e mantenha uma expressão neutra.</p>
+      <div class="cam-frame" id="camFrame">
+        ${state.cameraError ? `<div class="cam-fallback">
+            ${ic.camera('#B7A9AE')}
+            <p>Não conseguimos acessar sua câmera. Você pode enviar uma foto ou continuar com uma simulação.</p>
+            <label class="btn-secondary" style="display:block;text-align:center;cursor:pointer;">
+              Enviar foto
+              <input type="file" accept="image/*" id="fileInput" style="display:none" onchange="handleFileUpload(event)">
+            </label>
+            <button class="btn-ghost" onclick="skipPhoto()">Continuar sem foto</button>
+          </div>`
+          : `<video id="camVideo" autoplay playsinline muted></video>
+             <div class="face-guide">${faceGuideSvg()}</div>`}
+      </div>
+      <div class="tip-row">
+        <div class="tip">${ic.bulb('#D6236F')}<span>Ambiente bem iluminado</span></div>
+        <div class="tip">${ic.ban('#D6236F')}<span>Sem maquiagem e filtros</span></div>
+        <div class="tip">${ic.eye('#D6236F')}<span>Olhe para a câmera</span></div>
+      </div>
+      <button class="btn-primary" id="captureBtn" onclick="capturePhoto()" ${state.cameraError?'style="display:none"':''}>INICIAR ANÁLISE</button>
+    </div>
+  </div>`;
+}
+function faceGuideSvg(){
+  return `<svg viewBox="0 0 160 200"><ellipse cx="80" cy="100" rx="58" ry="80" fill="none" stroke="#D6236F" stroke-width="2.5" stroke-dasharray="6 6"/></svg>`;
+}
+async function initCamera(){
+  const video = document.getElementById('camVideo');
+  if(!video) return;
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}, audio:false});
+    state._stream = stream;
+    video.srcObject = stream;
+  }catch(e){
+    state.cameraError = 'denied';
+    render();
+  }
+}
+function capturePhoto(){
+  const video = document.getElementById('camVideo');
+  let dataUrl = null;
+  try{
+    if(video && video.videoWidth){
+      const canvas = document.createElement('canvas');
+      canvas.width = 160; canvas.height = 160;
+      const ctx = canvas.getContext('2d');
+      ctx.translate(160,0); ctx.scale(-1,1);
+      ctx.drawImage(video, 0,0,160,160);
+      dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+    }
+  }catch(e){}
+  state.scan.photo = dataUrl;
+  stopCamera();
+  goTo('analyzing');
+}
+function handleFileUpload(evt){
   const file = evt.target.files[0];
   if(!file) return;
   const reader = new FileReader();
   reader.onload = function(e){
-    state.capturedImage = e.target.result;
-    goto('analyzing');
+    const img = new Image();
+    img.onload = function(){
+      const canvas = document.createElement('canvas');
+      canvas.width=160; canvas.height=160;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img,0,0,160,160);
+      state.scan.photo = canvas.toDataURL('image/jpeg',0.6);
+      goTo('analyzing');
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
-};
-
-/* ---- USER: Analyzing (signature scan animation) ---- */
-SCREENS.analyzing = function(){
-  const el = h(`
-    <div class="screen fade-in" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;">
-      <div class="scanwrap">
-        <img src="${state.capturedImage}">
-        <div class="sweep"></div>
-        <div class="scan-ring"></div>
-        <div class="scan-ring d2"></div>
-        <div class="scan-ring d3"></div>
-      </div>
-      <div style="text-align:center;margin-top:14px;">
-        <div class="eyebrow">Analisando</div>
-        <div id="scanLabel" class="mono" style="margin-top:6px;font-size:13px;color:var(--ink-soft);">Lendo textura e tom de pele…</div>
-      </div>
-    </div>
-  `);
-  const labels = ['Lendo textura e tom de pele…','Detectando brilho e oleosidade…','Mapeando possíveis manchas…','Calculando recomendações…'];
-  let i=0;
-  const interval = setInterval(()=>{
-    i = (i+1) % labels.length;
-    const lbl = el.querySelector('#scanLabel');
-    if(lbl) lbl.textContent = labels[i]; else clearInterval(interval);
-  }, 700);
-
-  setTimeout(async ()=>{
-    clearInterval(interval);
-    const img = new Image();
-    img.onload = async ()=>{
-      const result = analyzeImageData(img);
-      const record = {
-        id: 'a_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),
-        userName: state.userName,
-        timestamp: Date.now(),
-        image: state.capturedImage,
-        result
-      };
-      state.lastResult = record;
-      await saveAnalysis(record);
-      goto('results');
-    };
-    img.src = state.capturedImage;
-  }, 2600);
-
-  return el;
-};
-
-/* ---- USER: Results ---- */
-SCREENS.results = function(){
-  const r = state.lastResult.result;
-  const tips = treatmentFor(r);
-  const bar = (val, color)=>`<div class="metric-bar"><div class="metric-fill" style="width:${val}%;background:${color};"></div></div>`;
-  const el = h(`
-    <div class="screen fade-in">
-      <div class="row">
-        <button class="btn-ghost" style="width:auto;padding:6px;" onclick="goto('userHome')">← Início</button>
-      </div>
-      <div class="card" style="text-align:center;margin-top:10px;">
-        <img src="${state.lastResult.image}" style="width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid var(--rose-soft);">
-        <div class="eyebrow" style="margin-top:14px;">Resultado da análise</div>
-        <h2 style="font-size:26px;margin-top:4px;">${r.tipo}</h2>
-      </div>
-
-      <div class="card" style="margin-top:16px;">
-        <div class="stack">
-          <div>
-            <div class="row"><span style="font-size:13.5px;font-weight:600;">Oleosidade</span><span class="spacer"></span><span class="mono" style="font-size:12px;">${r.oleosidade}%</span></div>
-            ${bar(r.oleosidade,'var(--gold)')}
-          </div>
-          <div>
-            <div class="row"><span style="font-size:13.5px;font-weight:600;">Ressecamento</span><span class="spacer"></span><span class="mono" style="font-size:12px;">${r.ressecamento}%</span></div>
-            ${bar(r.ressecamento,'var(--navy)')}
-          </div>
-          <div>
-            <div class="row"><span style="font-size:13.5px;font-weight:600;">Sinais de acne</span><span class="spacer"></span><span class="pill ${r.acneNivel!=='Baixo'?'pill-rose':''}">${r.acneNivel}</span></div>
-            ${bar(r.acnePct,'var(--rose)')}
-          </div>
-          <div>
-            <div class="row"><span style="font-size:13.5px;font-weight:600;">Sardas / manchas</span><span class="spacer"></span><span class="pill ${r.sardaNivel!=='Baixo'?'pill-alert':''}">${r.sardaNivel}</span></div>
-            ${bar(r.sardaPct,'#B08D3E')}
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="eyebrow">Rotina sugerida</div>
-      <div class="card" style="margin-top:10px;">
-        <ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.9;color:var(--ink);">
-          ${tips.map(t=>`<li>${t}</li>`).join('')}
-        </ul>
-      </div>
-
-      <div class="disclaimer" style="margin-top:16px;">
-        ⚠️ Esta análise é uma estimativa gerada por processamento de imagem, não um diagnóstico médico.
-        Para confirmação e tratamento adequado, consulte sempre um <strong>dermatologista</strong>.
-      </div>
-
-      <button class="btn btn-primary" style="margin-top:20px;" onclick="goto('userHome')">Concluir</button>
-    </div>
-  `);
-  return el;
-};
-
-/* ---- USER: History ---- */
-SCREENS.userHistory = function(){
-  const el = h(`
-    <div>
-      <div class="topbar"><h2 style="font-size:19px;">Histórico</h2></div>
-      <div class="screen" id="histWrap"><div class="empty">Carregando…</div></div>
-    </div>
-  `);
-  (async()=>{
-    const all = await getAllAnalyses();
-    const mine = all.filter(a=>a.userName===state.userName);
-    const wrap = el.querySelector('#histWrap');
-    if(mine.length===0){ wrap.innerHTML = `<div class="empty">Nenhuma análise registrada ainda.</div>`; return; }
-    wrap.innerHTML = mine.map(a=>`
-      <div class="card row" style="margin-bottom:12px;padding:14px 16px;" onclick='openHistoryItem(${JSON.stringify(a.id)})'>
-        <img src="${a.image}" style="width:50px;height:50px;border-radius:12px;object-fit:cover;">
-        <div style="flex:1;">
-          <div style="font-weight:600;font-size:14.5px;">${a.result.tipo}</div>
-          <div class="eyebrow">${new Date(a.timestamp).toLocaleString('pt-BR')}</div>
-        </div>
-        <span class="pill ${a.result.acneNivel!=='Baixo'?'pill-rose':''}">Acne: ${a.result.acneNivel}</span>
-      </div>
-    `).join('');
-    window._histCache = mine;
-  })();
-  return el;
-};
-window.openHistoryItem = function(id){
-  const item = (window._histCache||[]).find(a=>a.id===id);
-  if(!item) return;
-  state.lastResult = item;
-  goto('results');
-};
-
-/* ---- USER: Profile ---- */
-SCREENS.userProfile = function(){
-  const el = h(`
-    <div>
-      <div class="topbar"><h2 style="font-size:19px;">Perfil</h2></div>
-      <div class="screen">
-        <div class="card" style="text-align:center;">
-          <div class="avatar" style="width:64px;height:64px;font-size:24px;margin:0 auto;">${(state.userName||'?')[0].toUpperCase()}</div>
-          <h3 style="margin-top:14px;font-size:20px;">${state.userName}</h3>
-          <div class="eyebrow" style="margin-top:4px;">Perfil de usuário</div>
-        </div>
-        <div class="disclaimer" style="margin-top:16px;">
-          Este app oferece triagem informativa sobre a pele e não substitui consulta, diagnóstico ou tratamento com um dermatologista licenciado.
-        </div>
-        <button class="btn btn-outline" style="margin-top:20px;" onclick="logout()">Sair</button>
-      </div>
-    </div>
-  `);
-  return el;
-};
-
-window.logout = function(){
-  state.role=null; state.userName=null; state.lastResult=null; state.capturedImage=null; state.navTab='home';
-  goto('splash');
-};
-
-/* ---- ADMIN: Home / Dashboard ---- */
-SCREENS.adminHome = function(){
-  const el = h(`
-    <div>
-      <div class="topbar">
-        <div class="avatar" style="background:var(--navy-soft);color:var(--navy);">${ICONS.admin}</div>
-        <div>
-          <div class="eyebrow">Painel administrativo</div>
-          <div style="font-family:'Fraunces';font-weight:600;font-size:16px;">${state.userName}</div>
-        </div>
-      </div>
-      <div class="screen">
-        <div id="statsWrap" class="row" style="gap:12px;">
-          <div class="card" style="flex:1;text-align:center;">Carregando…</div>
-        </div>
-        <div class="divider"></div>
-        <div class="eyebrow">Análises recentes (todos os usuários)</div>
-        <div id="adminList" style="margin-top:12px;" class="stack"></div>
-      </div>
-    </div>
-  `);
-  loadAdminData(el);
-  return el;
-};
-
-async function loadAdminData(el){
-  const all = await getAllAnalyses();
-  const users = await getAllUsers();
-  const statsWrap = el.querySelector('#statsWrap');
-  const acneAlto = all.filter(a=>a.result.acneNivel==='Alto').length;
-  statsWrap.innerHTML = `
-    <div class="card" style="flex:1;text-align:center;padding:16px 8px;">
-      <div class="mono" style="font-size:22px;font-weight:600;">${users.length}</div>
-      <div class="eyebrow" style="margin-top:4px;">Usuários</div>
-    </div>
-    <div class="card" style="flex:1;text-align:center;padding:16px 8px;">
-      <div class="mono" style="font-size:22px;font-weight:600;">${all.length}</div>
-      <div class="eyebrow" style="margin-top:4px;">Análises</div>
-    </div>
-    <div class="card" style="flex:1;text-align:center;padding:16px 8px;">
-      <div class="mono" style="font-size:22px;font-weight:600;color:var(--rose);">${acneAlto}</div>
-      <div class="eyebrow" style="margin-top:4px;">Acne alta</div>
-    </div>
-  `;
-  const list = el.querySelector('#adminList');
-  if(all.length===0){ list.innerHTML = `<div class="card empty">Nenhuma análise registrada ainda.</div>`; return; }
-  list.innerHTML = all.slice(0,12).map(a=>`
-    <div class="card row" style="padding:12px 14px;">
-      <img src="${a.image}" style="width:42px;height:42px;border-radius:10px;object-fit:cover;">
-      <div style="flex:1;">
-        <div style="font-weight:600;font-size:13.5px;">${a.userName}</div>
-        <div class="eyebrow">${a.result.tipo} · ${new Date(a.timestamp).toLocaleDateString('pt-BR')}</div>
-      </div>
-      <span class="pill ${a.result.acneNivel!=='Baixo'?'pill-rose':''}">${a.result.acneNivel}</span>
-    </div>
-  `).join('');
 }
+function skipPhoto(){ state.scan.photo=null; goTo('analyzing'); }
 
-/* ---- ADMIN: Users list ---- */
-SCREENS.adminUsers = function(){
-  const el = h(`
-    <div>
-      <div class="topbar"><h2 style="font-size:19px;">Usuários</h2></div>
-      <div class="screen" id="adminUsersWrap"><div class="empty">Carregando…</div></div>
-    </div>
-  `);
-  (async()=>{
-    const users = await getAllUsers();
-    const all = await getAllAnalyses();
-    const wrap = el.querySelector('#adminUsersWrap');
-    if(users.length===0){ wrap.innerHTML=`<div class="empty">Nenhum usuário cadastrado ainda.</div>`; return; }
-    wrap.innerHTML = users.map(u=>{
-      const count = all.filter(a=>a.userName===u.name).length;
-      return `
-      <div class="card row" style="margin-bottom:12px;padding:14px 16px;">
-        <div class="avatar">${u.name[0].toUpperCase()}</div>
-        <div style="flex:1;">
-          <div style="font-weight:600;font-size:14.5px;">${u.name}</div>
-          <div class="eyebrow">${count} análise(s)</div>
-        </div>
-      </div>`;
-    }).join('');
-  })();
-  return el;
-};
-
-/* ---- ADMIN: Settings/profile ---- */
-SCREENS.adminProfile = function(){
-  const el = h(`
-    <div>
-      <div class="topbar"><h2 style="font-size:19px;">Conta</h2></div>
-      <div class="screen">
-        <div class="card" style="text-align:center;">
-          <div class="avatar" style="width:64px;height:64px;font-size:24px;margin:0 auto;background:var(--navy-soft);color:var(--navy);">${ICONS.admin}</div>
-          <h3 style="margin-top:14px;font-size:20px;">${state.userName}</h3>
-          <div class="eyebrow" style="margin-top:4px;">Administrador</div>
-        </div>
-        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:16px;line-height:1.6;">
-          O painel administrativo permite acompanhar o volume de análises e identificar usuários que podem precisar de encaminhamento prioritário a um dermatologista parceiro.
-        </p>
-        <button class="btn btn-outline" style="margin-top:14px;" onclick="logout()">Sair</button>
+/* ---------------- ANALYZING ---------------- */
+const ANALYZE_ITEMS = ['Oleosidade','Hidratação','Textura','Manchas','Poros','Uniformidade','Vermelhidão'];
+function renderAnalyzing(){
+  return `<div class="screen no-nav" style="justify-content:center;">
+    <div class="content">
+      <h2 class="cam-title">Analisando sua pele...</h2>
+      <p class="cam-sub">Isso pode levar alguns segundos.</p>
+      <div class="ring-wrap">
+        <svg viewBox="0 0 160 160" width="160" height="160">
+          <circle cx="80" cy="80" r="66" fill="none" stroke="#F1E3E8" stroke-width="10"/>
+          <circle id="progRing" cx="80" cy="80" r="66" fill="none" stroke="#D6236F" stroke-width="10" stroke-linecap="round" stroke-dasharray="${2*Math.PI*66}" stroke-dashoffset="${2*Math.PI*66}" transform="rotate(-90 80 80)"/>
+        </svg>
+        <div class="ring-pct" id="progPct">0%</div>
+      </div>
+      <div class="checklist" id="checklist">
+        ${ANALYZE_ITEMS.map((t,i)=>`<div class="check-item" id="chk${i}"><span>${t}</span><div class="mark"></div></div>`).join('')}
       </div>
     </div>
-  `);
-  return el;
-};
-
-/* ---------------- Bottom nav ---------------- */
-function withNav(screenEl, tabs, activeKey){
-  const wrapper = document.createElement('div');
-  wrapper.appendChild(screenEl);
-  const nav = h(`<div class="bottomnav">${tabs.map(t=>`
-    <button class="navbtn ${t.key===activeKey?'active':''}" onclick="goto('${t.screen}')">
-      ${ICONS[t.icon]}<span>${t.label}</span>
-    </button>`).join('')}</div>`);
-  wrapper.appendChild(nav);
-  return wrapper;
+  </div>`;
 }
-
-const originalGoto = goto;
-goto = function(screen){
-  state.screen = screen;
-  const app = document.getElementById('app');
-  app.innerHTML = '';
-  let content = SCREENS[screen] ? SCREENS[screen]() : SCREENS.splash();
-
-  const userTabs = [
-    {key:'home', label:'Início', icon:'home', screen:'userHome'},
-    {key:'history', label:'Histórico', icon:'history', screen:'userHistory'},
-    {key:'profile', label:'Perfil', icon:'profile', screen:'userProfile'},
-  ];
-  const adminTabs = [
-    {key:'home', label:'Painel', icon:'home', screen:'adminHome'},
-    {key:'users', label:'Usuários', icon:'users', screen:'adminUsers'},
-    {key:'profile', label:'Conta', icon:'profile', screen:'adminProfile'},
-  ];
-
-  if(['userHome','userHistory','userProfile'].includes(screen)){
-    const map = {userHome:'home', userHistory:'history', userProfile:'profile'};
-    content = withNav(content, userTabs, map[screen]);
-  } else if(['adminHome','adminUsers','adminProfile'].includes(screen)){
-    const map = {adminHome:'home', adminUsers:'users', adminProfile:'profile'};
-    content = withNav(content, adminTabs, map[screen]);
+function runAnalysis(){
+  const total = ANALYZE_ITEMS.length;
+  const ring = document.getElementById('progRing');
+  const pctEl = document.getElementById('progPct');
+  const circumference = 2*Math.PI*66;
+  let pct = 0;
+  const duration = 3200;
+  const start = Date.now();
+  function tick(){
+    const elapsed = Date.now()-start;
+    pct = Math.min(100, Math.round((elapsed/duration)*100));
+    if(ring){ ring.style.transition='stroke-dashoffset .1s linear'; ring.setAttribute('stroke-dashoffset', circumference - circumference*pct/100); }
+    if(pctEl) pctEl.textContent = pct+'%';
+    const doneCount = Math.floor((pct/100)*total);
+    for(let i=0;i<total;i++){
+      const el = document.getElementById('chk'+i);
+      if(!el) continue;
+      if(i<doneCount) el.classList.add('done'); 
+    }
+    for(let i=0;i<Math.min(doneCount,total);i++){
+      const el = document.getElementById('chk'+i);
+      if(el && el.classList.contains('done')){
+        const mark = el.querySelector('.mark');
+        if(mark && !mark.innerHTML) mark.innerHTML = ic.check('#fff');
+      }
+    }
+    if(elapsed<duration && state.view==='analyzing'){
+      requestAnimationFrame(tick);
+    } else if(state.view==='analyzing'){
+      for(let i=0;i<total;i++){
+        const el = document.getElementById('chk'+i);
+        if(el && !el.classList.contains('done')){ el.classList.add('done'); const m=el.querySelector('.mark'); if(m) m.innerHTML=ic.check('#fff'); }
+      }
+      setTimeout(finishAnalysis, 400);
+    }
   }
-  app.appendChild(content);
-  window.scrollTo(0,0);
-};
+  requestAnimationFrame(tick);
+}
+function clamp(v,min,max){ return Math.max(min,Math.min(max,v)); }
+function computeResults(){
+  const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+  let m = {oleosidade:rand(18,38), ressecamento:rand(18,38), manchas:rand(12,32), acne:rand(8,26), sensibilidade:rand(12,32)};
+  state.scan.symptoms.forEach(id=>{
+    const o = SYMPTOM_OPTS.find(x=>x.id===id);
+    if(o && o.metric) m[o.metric] += o.boost;
+  });
+  const st = state.scan.skinType;
+  if(st==='oleosa'){ m.oleosidade+=26; m.ressecamento-=14; }
+  else if(st==='seca'){ m.ressecamento+=26; m.oleosidade-=14; }
+  else if(st==='mista'){ m.oleosidade+=12; m.ressecamento+=6; }
+  else if(st==='sensivel'){ m.sensibilidade+=28; }
+  state.scan.concerns.forEach(id=>{
+    const o = CONCERN_OPTS.find(x=>x.id===id);
+    if(o && o.metric) m[o.metric] += o.boost;
+  });
+  if(state.scan.routine==='nenhuma'){ m.ressecamento+=8; m.sensibilidade+=8; }
+  if(state.scan.routine==='ativos'){ m.sensibilidade+=10; }
+  if(state.scan.routine==='protetor'){ m.manchas-=8; }
+  Object.keys(m).forEach(k=> m[k]=clamp(Math.round(m[k]),5,97));
 
-goto('splash');
+  let skinTypeLabel;
+  const diff = m.oleosidade - m.ressecamento;
+  if(diff>15) skinTypeLabel='Pele oleosa';
+  else if(diff<-15) skinTypeLabel='Pele seca';
+  else skinTypeLabel='Pele mista';
+  if(m.sensibilidade>=65) skinTypeLabel += ' e sensível';
+
+  const sorted = METRICS.map(mt=>({...mt, value:m[mt.key]})).sort((a,b)=>b.value-a.value);
+  const top = sorted[0], second = sorted[1];
+  const lowestNeed = [...sorted].sort((a,b)=>a.value-b.value)[sorted.length-1];
+  const desc = `Pele com tendência à ${top.label.toLowerCase()} e necessidade de cuidado com ${second.label.toLowerCase()}.`;
+
+  const overallScore = clamp(Math.round(100 - (Object.values(m).reduce((a,b)=>a+b,0)/5)*0.55), 42, 96);
+
+  return {
+    id: Date.now(),
+    date: Date.now(),
+    metrics: m,
+    skinTypeLabel,
+    description: desc,
+    overallScore,
+    photo: state.scan.photo,
+  };
+}
+function finishAnalysis(){
+  const result = computeResults();
+  state.currentResult = result;
+  state.history.push(result);
+  saveHistory();
+  goTo('results');
+}
+
+/* ---------------- RESULTS ---------------- */
+function renderResults(res){
+  if(!res) return renderHome();
+  const sorted = METRICS.map(mt=>({...mt, value:res.metrics[mt.key]})).sort((a,b)=>b.value-a.value);
+  const isCurrent = state.currentResult && state.currentResult.id===res.id && state.view==='results' && state.history[state.history.length-1] && state.history[state.history.length-1].id===res.id;
+  return `<div class="screen">
+    ${backBar(state._fromProfile? "goTo('profile')" : "goTo('home')")}
+    <div class="content">
+      <h2 class="result-title">${state._fromProfile? 'Resultado do scan' : 'Seu SkinMatch está pronto <span class="spark">✨</span>'.replace('<span class="spark">✨</span>', '')}${!state._fromProfile?' <span class="spark">'+ic.spark('#D6236F')+'</span>':''}</h2>
+      <div class="card">
+        <h3>Perfil da sua pele</h3>
+        <p class="profile-desc">${esc(res.description)}</p>
+      </div>
+      <div class="card">
+        <h3>Principais necessidades</h3>
+        ${sorted.slice(0,4).map(mt=>{
+          const prio = mt.value>=70?'Alta prioridade': mt.value>=40?'Média prioridade':'Manutenção';
+          return `<div class="need-row">
+            <div class="need-ic" style="background:${mt.bg}">${ic[mt.icon](mt.hex)}</div>
+            <div><p class="need-name">${mt.label}</p><p class="need-tag" style="color:${mt.hex}">${prio}</p></div>
+            <div class="need-pct" style="margin-left:auto;color:${mt.hex}">${mt.value}%</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="card">
+        <h3>Análise detalhada</h3>
+        ${sorted.map(mt=>`
+          <div class="metric-block">
+            <div class="metric-head">
+              <div class="left">${ic[mt.icon](mt.hex)}<span class="name">${mt.label}</span></div>
+              <span class="pct" style="color:${mt.hex}">${mt.value}%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:${mt.value}%;background:${mt.hex}"></div></div>
+            <ul class="metric-tips">${TREATMENTS[mt.key].slice(0,2).map(t=>`<li>${t}</li>`).join('')}</ul>
+          </div>
+        `).join('')}
+      </div>
+      <button class="btn-primary" onclick="goTo('products')">VER MINHA ROTINA</button>
+      <p class="disclaimer">Análise educativa gerada por questionário e foto. Não substitui avaliação dermatológica profissional.</p>
+    </div>
+    ${state._fromProfile? '' : bottomNav('results')}
+  </div>`;
+}
+function viewHistoryEntry(id){
+  const entry = state.history.find(h=>h.id===id);
+  if(!entry) return;
+  state._fromProfile = true;
+  goTo('results', {currentResult:entry});
+}
+
+/* ---------------- PRODUCTS ---------------- */
+function renderProducts(){
+  const last = state.history[state.history.length-1];
+  let recommended = PRODUCTS;
+  let needLabel = '';
+  if(last){
+    const sorted = METRICS.map(mt=>({...mt, value:last.metrics[mt.key]})).sort((a,b)=>b.value-a.value);
+    const topKeys = sorted.slice(0,2).map(m=>m.key);
+    recommended = PRODUCTS.filter(p=>topKeys.includes(p.tag));
+    needLabel = sorted[0].label;
+  }
+  const rest = PRODUCTS.filter(p=>!recommended.includes(p));
+  return `<div class="screen">
+    ${topBar()}
+    <div class="content">
+      <h2 class="q-title" style="margin-top:0">Produtos</h2>
+      <p class="q-sub">${last ? `Selecionados para sua necessidade de ${needLabel.toLowerCase()}.` : 'Faça um Skin Scan para recomendações personalizadas.'}</p>
+      ${recommended.length? `<p class="section-label">Recomendados para você</p>${recommended.map(productCard).join('')}` : ''}
+      <p class="section-label">${recommended.length?'Outros produtos':'Todos os produtos'}</p>
+      ${rest.map(productCard).join('')}
+    </div>
+    ${bottomNav('products')}
+  </div>`;
+}
+function productCard(p){
+  const fav = state.favorites.includes(p.id);
+  return `<div class="product-card">
+    <div class="product-thumb" style="background:${p.bg}">${ic[p.icon](p.color)}</div>
+    <div class="product-info">
+      <p class="product-name">${p.name}</p>
+      <p class="product-tag">${METRICS.find(m=>m.key===p.tag)?.label || ''}</p>
+      <p class="product-price">${p.price}</p>
+    </div>
+    <div class="heart-btn ${fav?'active':''}" onclick="toggleFavorite('${p.id}')">${ic.heart(fav?'#D6236F':'#7A6A70', fav?'#D6236F':'none')}</div>
+  </div>`;
+}
+function toggleFavorite(id){
+  const i = state.favorites.indexOf(id);
+  if(i>-1) state.favorites.splice(i,1); else state.favorites.push(id);
+  saveFavorites();
+  render();
+}
+
+/* ---------------- FAVORITES ---------------- */
+function renderFavorites(){
+  const favProducts = PRODUCTS.filter(p=>state.favorites.includes(p.id));
+  return `<div class="screen">
+    ${topBar()}
+    <div class="content">
+      <h2 class="q-title" style="margin-top:0">Favoritos</h2>
+      <p class="q-sub">Produtos que você salvou para depois.</p>
+      ${favProducts.length ? favProducts.map(productCard).join('') : `
+        <div class="empty-state">
+          ${ic.heart('#B7A9AE')}
+          <p>Você ainda não salvou nenhum produto.<br>Toque no coração de um produto para guardá-lo aqui.</p>
+          <button class="btn-secondary" onclick="goTo('products')">Ver produtos</button>
+        </div>`}
+    </div>
+    ${bottomNav('favorites')}
+  </div>`;
+}
+
+/* ---------------- PROFILE ---------------- */
+function renderProfile(){
+  const initials = state.profile.name.trim().split(' ').slice(0,2).map(n=>n[0]).join('').toUpperCase();
+  return `<div class="screen">
+    ${topBar()}
+    <div class="content">
+      <div class="profile-head">
+        <div class="avatar">${initials}</div>
+        <div>
+          <p class="profile-name">${esc(state.profile.name)}</p>
+          <p class="profile-meta">${state.history.length} scan${state.history.length===1?'':'s'} realizado${state.history.length===1?'':'s'}</p>
+        </div>
+      </div>
+      <p class="section-label" style="margin-top:0">Histórico de scans</p>
+      ${state.history.length ? [...state.history].reverse().map(h=>`
+        <div class="history-item" onclick="viewHistoryEntry(${h.id})">
+          <div class="history-ring">${miniRing(h.overallScore,'#D6236F')}</div>
+          <div><p class="htitle">${esc(h.skinTypeLabel)}</p><p class="hdate">${formatDate(h.date)}</p></div>
+          <div class="hgo">${ic.chev('#B7A9AE')}</div>
+        </div>
+      `).join('') : `<div class="empty-state">
+          ${ic.scan('#B7A9AE')}
+          <p>Nenhum scan ainda.<br>Faça seu primeiro Skin Scan para começar a acompanhar sua pele.</p>
+          <button class="btn-secondary" onclick="startScan()">Fazer meu Skin Scan</button>
+        </div>`}
+    </div>
+    ${bottomNav('profile')}
+  </div>`;
+}
+
+/* ---------------- POST-RENDER HOOKS ---------------- */
+function afterRender(){
+  if(state.view==='camera' && !state.cameraError){ initCamera(); }
+  if(state.view==='analyzing'){ setTimeout(runAnalysis, 150); }
+}
+
+loadAll();
 </script>
 </body>
 </html>
